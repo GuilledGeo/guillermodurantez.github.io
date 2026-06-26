@@ -337,6 +337,15 @@ footer { border-top:0.5px solid var(--border); padding:28px var(--pad-x); displa
   .hero-mini { gap:22px; }
   #scan-canvas { height:300px; }
 }
+
+/* ---- Language switch ---- */
+.nav-right { display:flex; align-items:center; gap:16px; }
+.lang-switch { display:flex; gap:2px; border:0.5px solid var(--border); border-radius:3px; overflow:hidden; }
+.lang-switch button { font-family:var(--font-m); font-size:10px; letter-spacing:0.1em; padding:7px 11px; background:transparent; color:var(--text2); border:0; cursor:pointer; transition:background 0.2s,color 0.2s; line-height:1; }
+.lang-switch button.on { background:var(--green); color:var(--bg); }
+.lang-switch button:not(.on):hover { color:var(--green); }
+.lang-switch button:focus-visible { outline:2px solid var(--ring); outline-offset:2px; }
+@media (max-width:900px){ .nav-right{ gap:10px; } }
 </style>
 </head>
 <body>
@@ -360,13 +369,16 @@ footer { border-top:0.5px solid var(--border); padding:28px var(--pad-x); displa
 <nav id="nav">
   <div class="nav-logo"><span class="pin"></span>G. Durántez · GeoAI</div>
   <div class="nav-links">
-    <a href="#about">About</a>
-    <a href="#scanner">Scanner</a>
-    <a href="#expertise">Expertise</a>
-    <a href="#projects">Projects</a>
-    <a href="#collaborate">Collaborate</a>
+    <a href="#about" data-i18n="nav_about">About</a>
+    <a href="#scanner" data-i18n="nav_scanner">Scanner</a>
+    <a href="#expertise" data-i18n="nav_expertise">Expertise</a>
+    <a href="#projects" data-i18n="nav_projects">Projects</a>
+    <a href="#collaborate" data-i18n="nav_collab">Collaborate</a>
   </div>
-  <a href="#contact" class="nav-cta">Get in touch</a>
+  <div class="nav-right">
+    <div class="lang-switch" role="group" aria-label="Idioma / Language"><button type="button" data-lang="es">ES</button><button type="button" data-lang="en">EN</button></div>
+    <a href="#contact" class="nav-cta" data-i18n="nav_cta">Get in touch</a>
+  </div>
 </nav>
 
 <header class="hero" id="home">
@@ -376,18 +388,18 @@ footer { border-top:0.5px solid var(--border); padding:28px var(--pad-x); displa
   <div class="hero-scanbeam" aria-hidden="true"></div>
   <div class="hero-fade-bottom" aria-hidden="true"></div>
   <div class="hero-left">
-    <div class="hero-tag"><span class="pin"></span>Geospatial AI · Primary Sector</div>
+    <div class="hero-tag"><span class="pin"></span><span data-i18n="hero_tag">Geospatial AI · Primary Sector</span></div>
     <h1 class="hero-name"><span class="l1">Guillermo</span><span class="l2">Durántez</span><span class="l3">Quill</span></h1>
-    <p class="hero-sub">Senior <strong>GeoAI &amp; Data Science Specialist</strong><br>Agritech · Spacetech · Animaltech</p>
+    <p class="hero-sub" data-i18n="hero_sub">Senior <strong>GeoAI &amp; Data Science Specialist</strong><br>Agritech · Spacetech · Animaltech</p>
     <div class="hero-btns">
-      <a href="#contact" class="btn-g">Get in touch</a>
-      <a href="#projects" class="btn-o">View projects</a>
+      <a href="#contact" class="btn-g" data-i18n="btn_contact">Get in touch</a>
+      <a href="#projects" class="btn-o" data-i18n="btn_projects">View projects</a>
     </div>
     <div class="hero-mini">
-      <div class="mini"><span class="mini-n"><em>+</em>1M</span><span class="mini-l">Ha analysed</span></div>
-      <div class="mini"><span class="mini-n"><em>+</em>50</span><span class="mini-l">Projects</span></div>
-      <div class="mini"><span class="mini-n"><em>+</em>30</span><span class="mini-l">ML models</span></div>
-      <div class="mini"><span class="mini-n"><em>+</em>5</span><span class="mini-l">Startups EU</span></div>
+      <div class="mini"><span class="mini-n"><em>+</em>1M</span><span class="mini-l" data-i18n="mini1">Ha analysed</span></div>
+      <div class="mini"><span class="mini-n"><em>+</em>50</span><span class="mini-l" data-i18n="mini2">Projects</span></div>
+      <div class="mini"><span class="mini-n"><em>+</em>30</span><span class="mini-l" data-i18n="mini3">ML models</span></div>
+      <div class="mini"><span class="mini-n"><em>+</em>5</span><span class="mini-l" data-i18n="mini4">Startups EU</span></div>
     </div>
   </div>
   <div class="hero-right" aria-hidden="true">
@@ -397,10 +409,10 @@ footer { border-top:0.5px solid var(--border); padding:28px var(--pad-x); displa
       <div class="orbit o3"><div class="odot"></div></div>
       <div class="satglow"></div>
       <div class="satscan"></div>
-      <div class="dcard d1"><div class="t">Territory</div><div class="v">+1M Ha</div></div>
-      <div class="dcard d2"><div class="t">Source</div><div class="v">Sentinel-2</div></div>
-      <div class="dcard d3"><div class="t">Live tracking</div><div class="v">+10K heads</div></div>
-      <div class="dcard d4"><div class="t">Models</div><div class="v">+30 in prod</div></div>
+      <div class="dcard d1"><div class="t" data-i18n="dc1">Territory</div><div class="v">+1M Ha</div></div>
+      <div class="dcard d2"><div class="t" data-i18n="dc2">Source</div><div class="v">Sentinel-2</div></div>
+      <div class="dcard d3"><div class="t" data-i18n="dc3">Live tracking</div><div class="v">+10K heads</div></div>
+      <div class="dcard d4"><div class="t" data-i18n="dc4">Models</div><div class="v">+30 in prod</div></div>
       <div class="sat">
         <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="35" y="30" width="30" height="40" rx="3" fill="#0a0a1f" stroke="#00FF9C" stroke-width="1.5"/>
@@ -439,30 +451,31 @@ footer { border-top:0.5px solid var(--border); padding:28px var(--pad-x); displa
 </div>
 
 <section class="stats-bento reveal" aria-label="Métricas clave">
-  <div class="bento-stat"><p class="bento-num" data-count="1" data-suffix="M Ha" data-prefix="+">+1M Ha</p><p class="bento-lbl">Territory<br>analysed</p></div>
-  <div class="bento-stat"><p class="bento-num" data-count="50" data-prefix="+">+50</p><p class="bento-lbl">Projects<br>delivered</p></div>
-  <div class="bento-stat"><p class="bento-num" data-count="30" data-prefix="+">+30</p><p class="bento-lbl">ML models<br>in production</p></div>
-  <div class="bento-stat"><p class="bento-num" data-count="5" data-prefix="+">+5</p><p class="bento-lbl">European<br>startups</p></div>
+  <div class="bento-stat"><p class="bento-num" data-count="1" data-suffix="M Ha" data-prefix="+">+1M Ha</p><p class="bento-lbl" data-i18n="bento1">Territory<br>analysed</p></div>
+  <div class="bento-stat"><p class="bento-num" data-count="50" data-prefix="+">+50</p><p class="bento-lbl" data-i18n="bento2">Projects<br>delivered</p></div>
+  <div class="bento-stat"><p class="bento-num" data-count="30" data-prefix="+">+30</p><p class="bento-lbl" data-i18n="bento3">ML models<br>in production</p></div>
+  <div class="bento-stat"><p class="bento-num" data-count="5" data-prefix="+">+5</p><p class="bento-lbl" data-i18n="bento4">European<br>startups</p></div>
   <div class="bento-wide">
-    <p class="bento-wide-t">El territorio como dato.<br><em>Los datos como impacto.</em></p>
-    <p>7 años construyendo soluciones que funcionan en el campo, no solo en un notebook. Desde sensores GPS hasta modelos en producción.</p>
+    <p class="bento-wide-t" data-i18n="bw_title">El territorio como dato.<br><em>Los datos como impacto.</em></p>
+    <p data-i18n="bw_text">7 años construyendo soluciones que funcionan en el campo, no solo en un notebook. Desde sensores GPS hasta modelos en producción.</p>
   </div>
 </section>
 
 <section class="about-section" id="about">
   <div class="about-grid">
     <div class="reveal">
-      <p class="sec-eye">About</p>
-      <h2 class="about-h">Científico de datos.<br><em>Del territorio<br>al impacto.</em></h2>
-      <p class="about-txt">Soy científico de datos especializado en inteligencia artificial geoespacial aplicada al sector primario e industrial. Durante los últimos <strong>7 años</strong> he trabajado en la intersección entre el análisis del territorio, el aprendizaje automático y la toma de decisiones basada en datos.</p>
-      <p class="about-txt">Mi vinculación con el ecosistema emprendedor — colaborando con <strong>más de 5 startups tecnológicas europeas</strong> de los ámbitos agritech, spacetech y animaltech — me ha dado la capacidad de traducir lo técnico a impacto de negocio real.</p>
-      <p class="about-txt">Mi formación en <strong>Geografía, Ingeniería Geomática y Data Science</strong> me da una perspectiva que pocos perfiles combinan: entender el territorio como dato, modelarlo con precisión y convertirlo en KPIs de negocio reales.</p>
-      <p class="about-txt" style="color:var(--text3); font-size:13px;">Fuera del trabajo me muevo en la naturaleza, practico deporte al aire libre y llevo la cámara encima siempre que puedo. Observar el territorio desde el suelo y entenderlo desde los datos son dos formas de hacer lo mismo.</p>
+      <p class="sec-eye" data-i18n="eye_about">About</p>
+      <h2 class="about-h" data-i18n="about_h">Científico de datos.<br><em>Del territorio<br>al impacto.</em></h2>
+      <p class="about-txt" data-i18n="about_p1"></p>
+      <p class="about-txt" data-i18n="about_p2"></p>
+      <p class="about-txt" data-i18n="about_p3"></p>
+      <p class="about-txt" data-i18n="about_p4"></p>
+      <p class="about-txt" style="color:var(--text3); font-size:13px;" data-i18n="about_p5"></p>
     </div>
     <div class="degrees reveal d1">
-      <div class="deg"><span class="deg-year">22–23</span><div><p class="deg-name">Máster en Data Science &amp; Business Analytics</p><p class="deg-uni">Universidad Nebrija · ML · DL · BI · Cloud</p></div></div>
-      <div class="deg"><span class="deg-year">21–22</span><div><p class="deg-name">Máster en Ingeniería Geomática y Teledetección</p><p class="deg-uni">Universidad de Córdoba · Nota 8.3 · GEE · LiDAR · SIG</p></div></div>
-      <div class="deg"><span class="deg-year">17–21</span><div><p class="deg-name">Grado en Geografía y Gestión del Territorio</p><p class="deg-uni">Universidad de Málaga · Análisis territorial · Cartografía</p></div></div>
+      <div class="deg"><span class="deg-year">22–23</span><div><p class="deg-name" data-i18n="deg1n">Máster en Data Science &amp; Business Analytics</p><p class="deg-uni" data-i18n="deg1u">Universidad Nebrija · ML · DL · BI · Cloud</p></div></div>
+      <div class="deg"><span class="deg-year">21–22</span><div><p class="deg-name" data-i18n="deg2n">Máster en Ingeniería Geomática y Teledetección</p><p class="deg-uni" data-i18n="deg2u">Universidad de Córdoba · Nota 8.3 · GEE · LiDAR · SIG</p></div></div>
+      <div class="deg"><span class="deg-year">17–21</span><div><p class="deg-name" data-i18n="deg3n">Grado en Geografía y Gestión del Territorio</p><p class="deg-uni" data-i18n="deg3u">Universidad de Málaga · Análisis territorial · Cartografía</p></div></div>
     </div>
   </div>
 </section>
@@ -470,10 +483,10 @@ footer { border-top:0.5px solid var(--border); padding:28px var(--pad-x); displa
 <section class="scanner-section" id="scanner">
   <div class="scanner-head">
     <div class="reveal">
-      <p class="sec-eye">Live demo</p>
-      <h2 class="sec-h">Así <em style="color:var(--green)">leo el territorio.</em></h2>
+      <p class="sec-eye" data-i18n="eye_demo">Live demo</p>
+      <h2 class="sec-h" data-i18n="scan_h">Así <em style="color:var(--green)">leo el territorio.</em></h2>
     </div>
-    <p class="scanner-desc reveal d1">Una simulación de análisis NDVI sobre imagen satelital: cada celda representa un valor de vegetación calculado a partir de bandas multiespectrales. Pasa el cursor por encima para inspeccionar parcelas — es exactamente el tipo de análisis que construyo para agricultura y forestal.</p>
+    <p class="scanner-desc reveal d1" data-i18n="scan_desc">Una simulación de análisis NDVI sobre imagen satelital: cada celda representa un valor de vegetación calculado a partir de bandas multiespectrales. Pasa el cursor por encima para inspeccionar parcelas — es exactamente el tipo de análisis que construyo para agricultura y forestal.</p>
   </div>
   <div class="scanner-wrap reveal d1">
     <canvas id="scan-canvas" aria-label="Demostración interactiva de análisis NDVI"></canvas>
@@ -490,58 +503,58 @@ footer { border-top:0.5px solid var(--border); padding:28px var(--pad-x); displa
     </div>
   </div>
   <div class="ndvi-legend reveal d2">
-    <span>Suelo / agua</span>
+    <span data-i18n="leg1">Suelo / agua</span>
     <div class="ndvi-bar"></div>
-    <span>Vegetación densa</span>
+    <span data-i18n="leg2">Vegetación densa</span>
   </div>
 </section>
 
 <section class="expertise-section" id="expertise">
   <div class="exp-header">
-    <div class="reveal"><p class="sec-eye">Expertise</p><h2 class="exp-h">Dónde genero<br><em>impacto real.</em></h2></div>
-    <p class="exp-desc reveal d1">No trabajo con datos en abstracto. Trabajo con datos del territorio, del sensor y del campo — y los convierto en sistemas que el equipo opera a diario.</p>
+    <div class="reveal"><p class="sec-eye" data-i18n="eye_exp">Expertise</p><h2 class="exp-h" data-i18n="exp_h">Dónde genero<br><em>impacto real.</em></h2></div>
+    <p class="exp-desc reveal d1" data-i18n="exp_desc">No trabajo con datos en abstracto. Trabajo con datos del territorio, del sensor y del campo — y los convierto en sistemas que el equipo opera a diario.</p>
   </div>
   <div class="exp-cols reveal d1">
-    <div class="exp-col"><p class="exp-col-code">// GEO_AI</p><p class="exp-col-title">GeoAI &amp; Remote Sensing</p><p class="exp-col-body">Clasificación de cubiertas, detección de cambios, análisis de vegetación y monitorización territorial sobre imágenes satelitales y datos LiDAR.</p><div class="exp-col-tags"><span class="exp-tag">GEE</span><span class="exp-tag">Sentinel-2</span><span class="exp-tag">GDAL</span><span class="exp-tag">rasterio</span></div></div>
-    <div class="exp-col"><p class="exp-col-code">// ML_OPS</p><p class="exp-col-title">Machine Learning &amp; MLOps</p><p class="exp-col-body">Diseño, entrenamiento y despliegue de modelos ML y Deep Learning en producción. Pipelines escalables, reproducibles y mantenibles.</p><div class="exp-col-tags"><span class="exp-tag">PyTorch</span><span class="exp-tag">XGBoost</span><span class="exp-tag">MLflow</span><span class="exp-tag">Docker</span></div></div>
-    <div class="exp-col"><p class="exp-col-code">// IOT_SEN</p><p class="exp-col-title">Sensor &amp; IoT Data</p><p class="exp-col-body">Procesamiento de datos de collarines GPS, acelerómetros, sensores multiespectrales y plataformas UAV para análisis en tiempo real.</p><div class="exp-col-tags"><span class="exp-tag">GPS</span><span class="exp-tag">IoT</span><span class="exp-tag">UAV</span><span class="exp-tag">Time series</span></div></div>
-    <div class="exp-col"><p class="exp-col-code">// DAT_ENG</p><p class="exp-col-title">Data Engineering</p><p class="exp-col-body">Arquitecturas de datos geoespaciales end-to-end. ETL pipelines sobre BigQuery, Snowflake y Databricks que escalan a producción.</p><div class="exp-col-tags"><span class="exp-tag">BigQuery</span><span class="exp-tag">Snowflake</span><span class="exp-tag">Airflow</span><span class="exp-tag">Spark</span></div></div>
-    <div class="exp-col"><p class="exp-col-code">// BIZ_INT</p><p class="exp-col-title">Analytics &amp; BI</p><p class="exp-col-body">Dashboards que traducen el análisis geoespacial en KPIs accionables para equipos sin perfil técnico.</p><div class="exp-col-tags"><span class="exp-tag">Power BI</span><span class="exp-tag">Qlik</span><span class="exp-tag">Streamlit</span><span class="exp-tag">Plotly</span></div></div>
-    <div class="exp-col"><p class="exp-col-code">// SPA_ANA</p><p class="exp-col-title">Spatial Analysis &amp; GIS</p><p class="exp-col-body">Análisis espacial avanzado y cartografía aplicada a gestión forestal, planificación territorial y administraciones públicas.</p><div class="exp-col-tags"><span class="exp-tag">QGIS</span><span class="exp-tag">ArcGIS</span><span class="exp-tag">geopandas</span><span class="exp-tag">PostGIS</span></div></div>
+    <div class="exp-col"><p class="exp-col-code">// GEO_AI</p><p class="exp-col-title">GeoAI &amp; Remote Sensing</p><p class="exp-col-body" data-i18n="exp_b1">Clasificación de cubiertas, detección de cambios, análisis de vegetación y monitorización territorial sobre imágenes satelitales y datos LiDAR.</p><div class="exp-col-tags"><span class="exp-tag">GEE</span><span class="exp-tag">Sentinel-2</span><span class="exp-tag">GDAL</span><span class="exp-tag">rasterio</span></div></div>
+    <div class="exp-col"><p class="exp-col-code">// ML_OPS</p><p class="exp-col-title">Machine Learning &amp; MLOps</p><p class="exp-col-body" data-i18n="exp_b2">Diseño, entrenamiento y despliegue de modelos ML y Deep Learning en producción. Pipelines escalables, reproducibles y mantenibles.</p><div class="exp-col-tags"><span class="exp-tag">PyTorch</span><span class="exp-tag">XGBoost</span><span class="exp-tag">MLflow</span><span class="exp-tag">Docker</span></div></div>
+    <div class="exp-col"><p class="exp-col-code">// IOT_SEN</p><p class="exp-col-title">Sensor &amp; IoT Data</p><p class="exp-col-body" data-i18n="exp_b3">Procesamiento de datos de collarines GPS, acelerómetros, sensores multiespectrales y plataformas UAV para análisis en tiempo real.</p><div class="exp-col-tags"><span class="exp-tag">GPS</span><span class="exp-tag">IoT</span><span class="exp-tag">UAV</span><span class="exp-tag">Time series</span></div></div>
+    <div class="exp-col"><p class="exp-col-code">// DAT_ENG</p><p class="exp-col-title">Data Engineering</p><p class="exp-col-body" data-i18n="exp_b4">Arquitecturas de datos geoespaciales end-to-end. ETL pipelines sobre BigQuery, Snowflake y Databricks que escalan a producción.</p><div class="exp-col-tags"><span class="exp-tag">BigQuery</span><span class="exp-tag">Snowflake</span><span class="exp-tag">Airflow</span><span class="exp-tag">Spark</span></div></div>
+    <div class="exp-col"><p class="exp-col-code">// BIZ_INT</p><p class="exp-col-title">Analytics &amp; BI</p><p class="exp-col-body" data-i18n="exp_b5">Dashboards que traducen el análisis geoespacial en KPIs accionables para equipos sin perfil técnico.</p><div class="exp-col-tags"><span class="exp-tag">Power BI</span><span class="exp-tag">Qlik</span><span class="exp-tag">Streamlit</span><span class="exp-tag">Plotly</span></div></div>
+    <div class="exp-col"><p class="exp-col-code">// SPA_ANA</p><p class="exp-col-title">Spatial Analysis &amp; GIS</p><p class="exp-col-body" data-i18n="exp_b6">Análisis espacial avanzado y cartografía aplicada a gestión forestal, planificación territorial y administraciones públicas.</p><div class="exp-col-tags"><span class="exp-tag">QGIS</span><span class="exp-tag">ArcGIS</span><span class="exp-tag">geopandas</span><span class="exp-tag">PostGIS</span></div></div>
   </div>
 </section>
 
 <section class="projects-section" id="projects">
   <div class="proj-header">
-    <div class="reveal"><p class="sec-eye">Projects</p><h2 class="sec-h">Trabajo <em style="color:var(--green)">en código.</em></h2></div>
-    <a href="https://github.com/GuilledGeo" target="_blank" rel="noopener" class="proj-github-link reveal d1">↗ Ver GitHub completo</a>
+    <div class="reveal"><p class="sec-eye" data-i18n="eye_proj">Projects</p><h2 class="sec-h" data-i18n="proj_h">Trabajo <em style="color:var(--green)">en código.</em></h2></div>
+    <a href="https://github.com/GuilledGeo" target="_blank" rel="noopener" class="proj-github-link reveal d1" data-i18n="gh_link">↗ Ver GitHub completo</a>
   </div>
   <div class="proj-grid reveal">
     <a href="https://github.com/GuilledGeo/analisis-axarquia-regadio" target="_blank" rel="noopener" class="proj-card">
       <div class="proj-card-top"><span class="proj-icon">🛰️</span><span class="proj-status">GeoAI</span></div>
-      <p class="proj-name">Análisis Axarquía Regadío</p>
-      <p class="proj-desc">Evolución temporal del cambio de uso del suelo entre regadío y secano mediante parcelas catastrales e imágenes multiespectrales Sentinel-2. Detección de transiciones agrícolas en la comarca de la Axarquía a lo largo del tiempo.</p>
+      <p class="proj-name" data-i18n="proj_n1">Análisis Axarquía Regadío</p>
+      <p class="proj-desc" data-i18n="proj_d1">Evolución temporal del cambio de uso del suelo entre regadío y secano mediante parcelas catastrales e imágenes multiespectrales Sentinel-2. Detección de transiciones agrícolas en la comarca de la Axarquía a lo largo del tiempo.</p>
       <div class="proj-tags"><span class="proj-tag">Sentinel-2</span><span class="proj-tag">GEE</span><span class="proj-tag">Catastro</span><span class="proj-tag">Remote Sensing</span></div>
       <div class="proj-arrow">github.com/GuilledGeo →</div>
     </a>
     <a href="https://github.com/GuilledGeo/churn-prediction" target="_blank" rel="noopener" class="proj-card">
       <div class="proj-card-top"><span class="proj-icon">🔄</span><span class="proj-status">ML · MLOps</span></div>
       <p class="proj-name">Churn Prediction System</p>
-      <p class="proj-desc">Sistema end-to-end de predicción de abandono de clientes: desde EDA hasta API desplegable con FastAPI y Docker, con modelado, testing y CI/CD. Modelo final Gradient Boosting con ROC AUC de 0.84.</p>
+      <p class="proj-desc" data-i18n="proj_d2">Sistema end-to-end de predicción de abandono de clientes: desde EDA hasta API desplegable con FastAPI y Docker, con modelado, testing y CI/CD. Modelo final Gradient Boosting con ROC AUC de 0.84.</p>
       <div class="proj-tags"><span class="proj-tag">FastAPI</span><span class="proj-tag">Docker</span><span class="proj-tag">CI/CD</span><span class="proj-tag">scikit-learn</span></div>
       <div class="proj-arrow">github.com/GuilledGeo →</div>
     </a>
     <a href="https://github.com/GuilledGeo/retail-sales-insights" target="_blank" rel="noopener" class="proj-card">
       <div class="proj-card-top"><span class="proj-icon">🛒</span><span class="proj-status">Analytics · EDA</span></div>
       <p class="proj-name">Retail Sales Insights</p>
-      <p class="proj-desc">Análisis exploratorio de un dataset de retail para descubrir patrones de ventas por categoría, región y comportamiento de cliente. Visualización de tendencias y estacionalidad con recomendaciones de negocio accionables.</p>
+      <p class="proj-desc" data-i18n="proj_d3">Análisis exploratorio de un dataset de retail para descubrir patrones de ventas por categoría, región y comportamiento de cliente. Visualización de tendencias y estacionalidad con recomendaciones de negocio accionables.</p>
       <div class="proj-tags"><span class="proj-tag">pandas</span><span class="proj-tag">Plotly</span><span class="proj-tag">Power BI</span><span class="proj-tag">EDA</span></div>
       <div class="proj-arrow">github.com/GuilledGeo →</div>
     </a>
     <a href="https://github.com/GuilledGeo" target="_blank" rel="noopener" class="proj-card">
       <div class="proj-card-top"><span class="proj-icon">📦</span><span class="proj-status">More</span></div>
-      <p class="proj-name">Más proyectos en GitHub</p>
-      <p class="proj-desc">Explora el resto de mi portfolio de ciencia de datos, GeoAI y teledetección — pipelines, modelos y análisis aplicados al sector primario y al territorio.</p>
+      <p class="proj-name" data-i18n="proj_n4">Más proyectos en GitHub</p>
+      <p class="proj-desc" data-i18n="proj_d4">Explora el resto de mi portfolio de ciencia de datos, GeoAI y teledetección — pipelines, modelos y análisis aplicados al sector primario y al territorio.</p>
       <div class="proj-tags"><span class="proj-tag">Portfolio</span><span class="proj-tag">Open source</span></div>
       <div class="proj-arrow">github.com/GuilledGeo →</div>
     </a>
@@ -549,22 +562,22 @@ footer { border-top:0.5px solid var(--border); padding:28px var(--pad-x); displa
 </section>
 
 <section class="eco-section" id="ecosystems">
-  <div class="reveal"><p class="sec-eye">Ecosystems</p><h2 class="sec-h">Tres ecosistemas. <em style="color:var(--green)">Un mismo enfoque.</em></h2></div>
+  <div class="reveal"><p class="sec-eye" data-i18n="eye_eco">Ecosystems</p><h2 class="sec-h" data-i18n="eco_h">Tres ecosistemas. <em style="color:var(--green)">Un mismo enfoque.</em></h2></div>
   <div class="eco-bento reveal">
-    <div class="eco-card green"><span class="eco-bg-num">01</span><span class="eco-icon">🌱</span><p class="eco-name">Agritech</p><p class="eco-sub">Agricultura · Forestal · Suelo</p><p class="eco-body">Modelos predictivos sobre cultivos, análisis de índices de vegetación, inventarios forestales automatizados y gestión de recursos basada en datos satelitales.</p></div>
-    <div class="eco-card blue"><span class="eco-bg-num">02</span><span class="eco-icon">🛰️</span><p class="eco-name">Spacetech</p><p class="eco-sub">Satélite · Teledetección · GeoAI</p><p class="eco-body">Procesamiento de imágenes multiespectrales y SAR, pipelines de análisis de series temporales satelitales y algoritmos GeoAI sobre plataformas cloud.</p></div>
-    <div class="eco-card purple"><span class="eco-bg-num">03</span><span class="eco-icon">🐄</span><p class="eco-name">Animaltech</p><p class="eco-sub">Ganadería · GPS · IoT · Sensor</p><p class="eco-body">Algoritmos de monitorización en tiempo real sobre datos de collarines GPS y acelerómetro. Detección de celos, partos y anomalías en ganadería extensiva.</p></div>
+    <div class="eco-card green"><span class="eco-bg-num">01</span><span class="eco-icon">🌱</span><p class="eco-name">Agritech</p><p class="eco-sub" data-i18n="eco_s1">Agricultura · Forestal · Suelo</p><p class="eco-body" data-i18n="eco_b1">Modelos predictivos sobre cultivos, análisis de índices de vegetación, inventarios forestales automatizados y gestión de recursos basada en datos satelitales.</p></div>
+    <div class="eco-card blue"><span class="eco-bg-num">02</span><span class="eco-icon">🛰️</span><p class="eco-name">Spacetech</p><p class="eco-sub" data-i18n="eco_s2">Satélite · Teledetección · GeoAI</p><p class="eco-body" data-i18n="eco_b2">Procesamiento de imágenes multiespectrales y SAR, pipelines de análisis de series temporales satelitales y algoritmos GeoAI sobre plataformas cloud.</p></div>
+    <div class="eco-card purple"><span class="eco-bg-num">03</span><span class="eco-icon">🐄</span><p class="eco-name">Animaltech</p><p class="eco-sub" data-i18n="eco_s3">Ganadería · GPS · IoT · Sensor</p><p class="eco-body" data-i18n="eco_b3">Algoritmos de monitorización en tiempo real sobre datos de collarines GPS y acelerómetro. Detección de celos, partos y anomalías en ganadería extensiva.</p></div>
     <div class="eco-wide">
-      <div class="eco-wide-item"><p class="eco-wide-num"><i>+</i>10K</p><p class="eco-wide-lbl">Cabezas de ganado<br>monitorizadas</p></div>
-      <div class="eco-wide-item"><p class="eco-wide-num"><i>+</i>25K</p><p class="eco-wide-lbl">Imágenes satelitales<br>procesadas</p></div>
-      <div class="eco-wide-item"><p class="eco-wide-num"><i>+</i>50M</p><p class="eco-wide-lbl">Registros geoespaciales<br>procesados</p></div>
-      <div class="eco-wide-item"><p class="eco-wide-num">7</p><p class="eco-wide-lbl">Años en sector<br>primario</p></div>
+      <div class="eco-wide-item"><p class="eco-wide-num"><i>+</i>10K</p><p class="eco-wide-lbl" data-i18n="eco_w1">Cabezas de ganado<br>monitorizadas</p></div>
+      <div class="eco-wide-item"><p class="eco-wide-num"><i>+</i>25K</p><p class="eco-wide-lbl" data-i18n="eco_w2">Imágenes satelitales<br>procesadas</p></div>
+      <div class="eco-wide-item"><p class="eco-wide-num"><i>+</i>50M</p><p class="eco-wide-lbl" data-i18n="eco_w3">Registros geoespaciales<br>procesados</p></div>
+      <div class="eco-wide-item"><p class="eco-wide-num">7</p><p class="eco-wide-lbl" data-i18n="eco_w4">Años en sector<br>primario</p></div>
     </div>
   </div>
 </section>
 
 <section class="stack-section" id="stack">
-  <div class="reveal"><p class="sec-eye">Tech Stack</p><h2 class="sec-h">Las herramientas <em style="color:var(--blue)">del oficio.</em></h2></div>
+  <div class="reveal"><p class="sec-eye" data-i18n="eye_stack">Tech Stack</p><h2 class="sec-h" data-i18n="stack_h">Las herramientas <em style="color:var(--blue)">del oficio.</em></h2></div>
   <div class="stack-grid reveal d1">
     <div class="stack-col"><p class="stack-col-title">// Languages &amp; Core</p><div class="stack-items"><div class="stack-item"><div class="stack-dot"></div>Python</div><div class="stack-item"><div class="stack-dot"></div>R</div><div class="stack-item"><div class="stack-dot"></div>SQL</div><div class="stack-item"><div class="stack-dot"></div>Bash · Git</div><div class="stack-item"><div class="stack-dot"></div>Apache Spark</div></div></div>
     <div class="stack-col"><p class="stack-col-title">// ML &amp; Deep Learning</p><div class="stack-items"><div class="stack-item"><div class="stack-dot"></div>scikit-learn · XGBoost · LightGBM</div><div class="stack-item"><div class="stack-dot"></div>TensorFlow · Keras · PyTorch</div><div class="stack-item"><div class="stack-dot"></div>OpenCV · YOLO</div><div class="stack-item"><div class="stack-dot"></div>Prophet · ARIMA/SARIMA · Darts</div><div class="stack-item"><div class="stack-dot"></div>MLflow · Airflow · Docker</div></div></div>
@@ -573,11 +586,11 @@ footer { border-top:0.5px solid var(--border); padding:28px var(--pad-x); displa
 </section>
 
 <section class="collab-section" id="collaborate">
-  <div class="reveal"><p class="sec-eye">Collaborate</p><h2 class="sec-h">Trabajemos <em style="color:var(--green)">juntos.</em></h2></div>
+  <div class="reveal"><p class="sec-eye" data-i18n="eye_collab">Collaborate</p><h2 class="sec-h" data-i18n="collab_h">Trabajemos <em style="color:var(--green)">juntos.</em></h2></div>
   <div class="collab-grid reveal">
-    <div class="collab-card"><span class="collab-icon">🧠</span><p class="collab-title">Consultoría GeoAI</p><p class="collab-body">Asesoramiento técnico y estratégico en proyectos de inteligencia artificial geoespacial: desde la definición del problema hasta la arquitectura de la solución. Para empresas que necesitan criterio experto sobre datos del territorio.</p></div>
-    <div class="collab-card"><span class="collab-icon">⚙️</span><p class="collab-title">Proyectos a medida</p><p class="collab-body">Desarrollo de soluciones end-to-end: pipelines de datos satelitales y de sensor, modelos ML/DL en producción y dashboards de impacto. Para agritech, forestal, spacetech y administraciones.</p></div>
-    <div class="collab-card"><span class="collab-icon">🤝</span><p class="collab-title">Colaboraciones &amp; startups</p><p class="collab-body">Colaboración con startups y equipos técnicos en el ámbito del sector primario y la teledetección. Aporto experiencia construida en más de 5 startups europeas y +50 proyectos reales.</p></div>
+    <div class="collab-card"><span class="collab-icon">🧠</span><p class="collab-title" data-i18n="col_t1">Consultoría GeoAI</p><p class="collab-body" data-i18n="col_b1">Asesoramiento técnico y estratégico en proyectos de inteligencia artificial geoespacial: desde la definición del problema hasta la arquitectura de la solución. Para empresas que necesitan criterio experto sobre datos del territorio.</p></div>
+    <div class="collab-card"><span class="collab-icon">⚙️</span><p class="collab-title" data-i18n="col_t2">Proyectos a medida</p><p class="collab-body" data-i18n="col_b2">Desarrollo de soluciones end-to-end: pipelines de datos satelitales y de sensor, modelos ML/DL en producción y dashboards de impacto. Para agritech, forestal, spacetech y administraciones.</p></div>
+    <div class="collab-card"><span class="collab-icon">🤝</span><p class="collab-title" data-i18n="col_t3">Colaboraciones &amp; startups</p><p class="collab-body" data-i18n="col_b3">Colaboración con startups y equipos técnicos en el ámbito del sector primario y la teledetección. Aporto experiencia construida en más de 5 startups europeas y +50 proyectos reales.</p></div>
   </div>
 </section>
 
@@ -585,13 +598,13 @@ footer { border-top:0.5px solid var(--border); padding:28px var(--pad-x); displa
   <div class="contact-glow" aria-hidden="true"></div>
   <div class="contact-inner">
     <div class="contact-left reveal">
-      <p class="sec-eye">Contact</p>
-      <h2 class="contact-title">¿Tienes algo<br><em>en mente?</em></h2>
-      <p class="contact-desc">Si trabajas en agritech, forestal, ganadería, spacetech o administraciones con necesidades de analítica geoespacial — escríbeme. Siempre estoy abierto a conversaciones interesantes.</p>
+      <p class="sec-eye" data-i18n="eye_contact">Contact</p>
+      <h2 class="contact-title" data-i18n="contact_t">¿Tienes algo<br><em>en mente?</em></h2>
+      <p class="contact-desc" data-i18n="contact_d">Si trabajas en agritech, forestal, ganadería, spacetech o administraciones con necesidades de analítica geoespacial — escríbeme. Siempre estoy abierto a conversaciones interesantes.</p>
     </div>
     <div class="contact-right reveal d1">
       <a href="mailto:guillermodurantez@gmail.com" class="contact-link"><div class="cl-dot g"></div><span class="cl-label">Email</span><span class="cl-value">guillermodurantez@gmail.com</span><span class="cl-arr">→</span></a>
-      <a href="https://www.linkedin.com/in/guillermodurantez/" target="_blank" rel="noopener" class="contact-link"><div class="cl-dot b"></div><span class="cl-label">LinkedIn</span><span class="cl-value">Ver perfil y últimas publicaciones</span><span class="cl-arr">→</span></a>
+      <a href="https://www.linkedin.com/in/guillermodurantez/" target="_blank" rel="noopener" class="contact-link"><div class="cl-dot b"></div><span class="cl-label">LinkedIn</span><span class="cl-value" data-i18n="li_val">Ver perfil y últimas publicaciones</span><span class="cl-arr">→</span></a>
       <a href="https://github.com/GuilledGeo" target="_blank" rel="noopener" class="contact-link"><div class="cl-dot p"></div><span class="cl-label">GitHub</span><span class="cl-value">github.com/GuilledGeo</span><span class="cl-arr">→</span></a>
     </div>
   </div>
@@ -717,6 +730,20 @@ footer { border-top:0.5px solid var(--border); padding:28px var(--pad-x); displa
       requestAnimationFrame(draw);
     })();
   })();
+})();
+</script>
+<script>
+(function(){
+  var I18N = { es:{"nav_about":`Perfil`,"nav_scanner":`Demo`,"nav_expertise":`Especialidades`,"nav_projects":`Proyectos`,"nav_collab":`Colaborar`,"nav_cta":`Hablemos`,"hero_tag":`IA Geoespacial · Sector Primario`,"hero_sub":`Especialista Senior en <strong>GeoAI y Ciencia de Datos</strong><br>Agritech · Spacetech · Animaltech`,"btn_contact":`Hablemos`,"btn_projects":`Ver proyectos`,"mini1":`Ha analizadas`,"mini2":`Proyectos`,"mini3":`Modelos ML`,"mini4":`Startups EU`,"dc1":`Territorio`,"dc2":`Fuente`,"dc3":`Seguimiento`,"dc4":`Modelos`,"bento1":`Territorio<br>analizado`,"bento2":`Proyectos<br>entregados`,"bento3":`Modelos ML<br>en producción`,"bento4":`Startups<br>europeas`,"bw_title":`El territorio como dato.<br><em>Los datos como impacto.</em>`,"bw_text":`7 años construyendo soluciones que funcionan en el campo, no solo en un notebook. Desde sensores GPS hasta modelos en producción.`,"eye_about":`Perfil`,"about_h":`Científico de datos.<br><em>Del territorio<br>al impacto.</em>`,"about_p1":`Soy científico de datos especializado en inteligencia artificial geoespacial aplicada al sector primario e industrial. Durante los últimos <strong>7 años</strong> he trabajado en la intersección entre el análisis del territorio, el aprendizaje automático y la toma de decisiones basada en datos, en proyectos de agricultura, forestal, ganadería e ingeniería. No desde la teoría: desde proyectos reales con impacto operativo y económico directo, colaborando con <strong>+5 startups tecnológicas europeas</strong> de los ámbitos agritech, spacetech y animaltech.`,"about_p2":`Mi formación en <strong>Geografía, Ingeniería Geomática y Data Science</strong> me da una perspectiva que pocos perfiles combinan: entender el territorio como dato, modelarlo con precisión técnica y traducir ese análisis en KPIs de negocio reales. He aplicado esa metodología en múltiples modelos de negocio, desde licitaciones públicas y consultoría privada a productos SaaS tecnológicos a escala global.`,"about_p3":`Mi experiencia técnica arranca donde están los datos: sensores GPS, imágenes satelitales y dispositivos IoT desplegados en campo. He recorrido el pipeline completo en <strong>+50 proyectos reales</strong>. Hoy tengo <strong>+30 modelos ML &amp; DL</strong> desplegados en producción, desde algoritmos que monitorizan en tiempo real +10K cabezas de ganado hasta el procesamiento acumulado de +25K imágenes satelitales, habiendo procesado un total de +50M de registros entre datos geoespaciales y estructurados.`,"about_p4":`Mi misión es que la tecnología que construyo se convierta en una ventaja real para quien trabaja a pie de campo. Demasiados proyectos mueren entre la precisión del modelo y la realidad del campo, no por falta de técnica sino por falta de entendimiento del contexto sobre el territorio.`,"about_p5":`Fuera del trabajo me muevo en la naturaleza, practico deporte al aire libre y llevo la cámara encima siempre que puedo. Creo que observar el territorio desde el suelo y entenderlo desde los datos son dos formas de hacer lo mismo.`,"deg1n":`Máster en Data Science &amp; Business Analytics`,"deg2n":`Máster en Ingeniería Geomática y Teledetección`,"deg3n":`Grado en Geografía y Gestión del Territorio`,"deg1u":`Universidad Nebrija · ML · DL · BI · Cloud`,"deg2u":`Universidad de Córdoba · Nota 8.3 · GEE · LiDAR · SIG`,"deg3u":`Universidad de Málaga · Análisis territorial · Cartografía`,"eye_demo":`Demo en vivo`,"scan_h":`Así <em style="color:var(--green)">leo el territorio.</em>`,"scan_desc":`Una simulación de análisis NDVI sobre imagen satelital: cada celda representa un valor de vegetación calculado a partir de bandas multiespectrales. Pasa el cursor por encima para inspeccionar parcelas — es exactamente el tipo de análisis que construyo para agricultura y forestal.`,"leg1":`Suelo / agua`,"leg2":`Vegetación densa`,"eye_exp":`Especialidades`,"exp_h":`Dónde genero<br><em>impacto real.</em>`,"exp_desc":`No trabajo con datos en abstracto. Trabajo con datos del territorio, del sensor y del campo — y los convierto en sistemas que el equipo opera a diario.`,"exp_b1":`Clasificación de cubiertas, detección de cambios, análisis de vegetación y monitorización territorial sobre imágenes satelitales y datos LiDAR.`,"exp_b2":`Diseño, entrenamiento y despliegue de modelos ML y Deep Learning en producción. Pipelines escalables, reproducibles y mantenibles.`,"exp_b3":`Procesamiento de datos de collarines GPS, acelerómetros, sensores multiespectrales y plataformas UAV para análisis en tiempo real.`,"exp_b4":`Arquitecturas de datos geoespaciales end-to-end. ETL pipelines sobre BigQuery, Snowflake y Databricks que escalan a producción.`,"exp_b5":`Dashboards que traducen el análisis geoespacial en KPIs accionables para equipos sin perfil técnico.`,"exp_b6":`Análisis espacial avanzado y cartografía aplicada a gestión forestal, planificación territorial y administraciones públicas.`,"eye_proj":`Proyectos`,"proj_h":`Trabajo <em style="color:var(--green)">en código.</em>`,"gh_link":`↗ Ver GitHub completo`,"proj_n1":`Análisis Axarquía Regadío`,"proj_d1":`Evolución temporal del cambio de uso del suelo entre regadío y secano mediante parcelas catastrales e imágenes multiespectrales Sentinel-2. Detección de transiciones agrícolas en la comarca de la Axarquía a lo largo del tiempo.`,"proj_d2":`Sistema end-to-end de predicción de abandono de clientes: desde EDA hasta API desplegable con FastAPI y Docker, con modelado, testing y CI/CD. Modelo final Gradient Boosting con ROC AUC de 0.84.`,"proj_d3":`Análisis exploratorio de un dataset de retail para descubrir patrones de ventas por categoría, región y comportamiento de cliente. Visualización de tendencias y estacionalidad con recomendaciones de negocio accionables.`,"proj_n4":`Más proyectos en GitHub`,"proj_d4":`Explora el resto de mi portfolio de ciencia de datos, GeoAI y teledetección — pipelines, modelos y análisis aplicados al sector primario y al territorio.`,"eye_eco":`Ecosistemas`,"eco_h":`Tres ecosistemas. <em style="color:var(--green)">Un mismo enfoque.</em>`,"eco_s1":`Agricultura · Forestal · Suelo`,"eco_s2":`Satélite · Teledetección · GeoAI`,"eco_s3":`Ganadería · GPS · IoT · Sensor`,"eco_b1":`Modelos predictivos sobre cultivos, análisis de índices de vegetación, inventarios forestales automatizados y gestión de recursos basada en datos satelitales.`,"eco_b2":`Procesamiento de imágenes multiespectrales y SAR, pipelines de análisis de series temporales satelitales y algoritmos GeoAI sobre plataformas cloud.`,"eco_b3":`Algoritmos de monitorización en tiempo real sobre datos de collarines GPS y acelerómetro. Detección de celos, partos y anomalías en ganadería extensiva.`,"eco_w1":`Cabezas de ganado<br>monitorizadas`,"eco_w2":`Imágenes satelitales<br>procesadas`,"eco_w3":`Registros geoespaciales<br>procesados`,"eco_w4":`Años en sector<br>primario`,"eye_stack":`Tech Stack`,"stack_h":`Las herramientas <em style="color:var(--blue)">del oficio.</em>`,"eye_collab":`Colaborar`,"collab_h":`Trabajemos <em style="color:var(--green)">juntos.</em>`,"col_t1":`Consultoría GeoAI`,"col_b1":`Asesoramiento técnico y estratégico en proyectos de inteligencia artificial geoespacial: desde la definición del problema hasta la arquitectura de la solución. Para empresas que necesitan criterio experto sobre datos del territorio.`,"col_t2":`Proyectos a medida`,"col_b2":`Desarrollo de soluciones end-to-end: pipelines de datos satelitales y de sensor, modelos ML/DL en producción y dashboards de impacto. Para agritech, forestal, spacetech y administraciones.`,"col_t3":`Colaboraciones &amp; startups`,"col_b3":`Colaboración con startups y equipos técnicos en el ámbito del sector primario y la teledetección. Aporto experiencia construida en más de 5 startups europeas y +50 proyectos reales.`,"eye_contact":`Contacto`,"contact_t":`¿Tienes algo<br><em>en mente?</em>`,"contact_d":`Si trabajas en agritech, forestal, ganadería, spacetech o administraciones con necesidades de analítica geoespacial — escríbeme. Siempre estoy abierto a conversaciones interesantes.`,"li_val":`Ver perfil y últimas publicaciones`}, en:{"nav_about":`About`,"nav_scanner":`Scanner`,"nav_expertise":`Expertise`,"nav_projects":`Projects`,"nav_collab":`Collaborate`,"nav_cta":`Get in touch`,"hero_tag":`Geospatial AI · Primary Sector`,"hero_sub":`Senior <strong>GeoAI &amp; Data Science Specialist</strong><br>Agritech · Spacetech · Animaltech`,"btn_contact":`Get in touch`,"btn_projects":`View projects`,"mini1":`Ha analysed`,"mini2":`Projects`,"mini3":`ML models`,"mini4":`Startups EU`,"dc1":`Territory`,"dc2":`Source`,"dc3":`Live tracking`,"dc4":`Models`,"bento1":`Territory<br>analysed`,"bento2":`Projects<br>delivered`,"bento3":`ML models<br>in production`,"bento4":`European<br>startups`,"bw_title":`The territory as data.<br><em>Data as impact.</em>`,"bw_text":`7 years building solutions that work in the field, not just in a notebook. From GPS sensors to models in production.`,"eye_about":`About`,"about_h":`Data scientist.<br><em>From the territory<br>to impact.</em>`,"about_p1":`I'm a data scientist specialized in geospatial artificial intelligence applied to the primary and industrial sectors. For the past <strong>7 years</strong> I've worked at the intersection of territorial analysis, machine learning, and data-driven decision-making — across agriculture, forestry, livestock, and engineering. Not from theory: from real projects with direct operational and economic impact, collaborating with <strong>5+ European tech startups</strong> in the agritech, spacetech, and animaltech spaces.`,"about_p2":`My background in <strong>Geography, Geomatics Engineering, and Data Science</strong> gives me a perspective few profiles combine: understanding the territory as data, modeling it with technical precision, and translating that analysis into real business KPIs. I've applied that methodology across multiple business models — from public tenders and private consulting to global-scale SaaS products.`,"about_p3":`My technical experience starts where the data lives: GPS sensors, satellite imagery, and IoT devices deployed in the field. I've covered the full pipeline across <strong>50+ real projects</strong>. Today I have <strong>30+ ML &amp; DL models</strong> running in production — from algorithms monitoring 10K+ livestock in real time to the cumulative processing of 25K+ satellite images, having handled a total of 50M+ records across geospatial and structured data.`,"about_p4":`My mission is for the technology I build to become a real advantage for the people working out in the field. Too many projects die in the gap between model accuracy and field reality — not for lack of technique, but for lack of understanding of the territorial context.`,"about_p5":`Outside of work I spend my time in nature, do outdoor sports, and carry a camera whenever I can. I believe observing the territory from the ground and understanding it through data are two ways of doing the same thing.`,"deg1n":`MSc in Data Science &amp; Business Analytics`,"deg2n":`MSc in Geomatics Engineering &amp; Remote Sensing`,"deg3n":`BSc in Geography &amp; Land Management`,"deg1u":`Universidad Nebrija · ML · DL · BI · Cloud`,"deg2u":`Universidad de Córdoba · Grade 8.3 · GEE · LiDAR · GIS`,"deg3u":`Universidad de Málaga · Territorial analysis · Cartography`,"eye_demo":`Live demo`,"scan_h":`How I <em style="color:var(--green)">read the territory.</em>`,"scan_desc":`A simulated NDVI analysis over satellite imagery: each cell represents a vegetation value computed from multispectral bands. Hover to inspect plots — exactly the kind of analysis I build for agriculture and forestry.`,"leg1":`Soil / water`,"leg2":`Dense vegetation`,"eye_exp":`Expertise`,"exp_h":`Where I create<br><em>real impact.</em>`,"exp_desc":`I don't work with data in the abstract. I work with data from the territory, the sensor, and the field — turning it into systems the team uses every day.`,"exp_b1":`Land cover classification, change detection, vegetation analysis, and territorial monitoring over satellite imagery and LiDAR data.`,"exp_b2":`Design, training, and deployment of ML and Deep Learning models in production. Scalable, reproducible, and maintainable pipelines.`,"exp_b3":`Processing data from GPS collars, accelerometers, multispectral sensors, and UAV platforms for real-time analysis.`,"exp_b4":`End-to-end geospatial data architectures. ETL pipelines on BigQuery, Snowflake, and Databricks that scale to production.`,"exp_b5":`Dashboards that translate geospatial analysis into actionable KPIs for non-technical teams.`,"exp_b6":`Advanced spatial analysis and cartography applied to forest management, land-use planning, and public administration.`,"eye_proj":`Projects`,"proj_h":`Work <em style="color:var(--green)">in code.</em>`,"gh_link":`↗ View full GitHub`,"proj_n1":`Axarquía Irrigation Analysis`,"proj_d1":`Temporal evolution of land-use change between irrigated and rainfed farming using cadastral parcels and Sentinel-2 multispectral imagery. Detection of agricultural transitions in the Axarquía region over time.`,"proj_d2":`End-to-end customer churn prediction system: from EDA to a deployable API with FastAPI and Docker, including modeling, testing, and CI/CD. Final Gradient Boosting model with 0.84 ROC AUC.`,"proj_d3":`Exploratory analysis of a retail dataset to uncover sales patterns by category, region, and customer behavior. Trend and seasonality visualization with actionable business recommendations.`,"proj_n4":`More projects on GitHub`,"proj_d4":`Explore the rest of my data science, GeoAI, and remote sensing portfolio — pipelines, models, and applied analysis for the primary sector and the territory.`,"eye_eco":`Ecosystems`,"eco_h":`Three ecosystems. <em style="color:var(--green)">One approach.</em>`,"eco_s1":`Agriculture · Forestry · Soil`,"eco_s2":`Satellite · Remote Sensing · GeoAI`,"eco_s3":`Livestock · GPS · IoT · Sensor`,"eco_b1":`Predictive crop models, vegetation index analysis, automated forest inventories, and resource management based on satellite data.`,"eco_b2":`Processing of multispectral and SAR imagery, satellite time-series analysis pipelines, and GeoAI algorithms on cloud platforms.`,"eco_b3":`Real-time monitoring algorithms over GPS collar and accelerometer data. Detection of heat, calving, and anomalies in extensive livestock farming.`,"eco_w1":`Livestock heads<br>monitored`,"eco_w2":`Satellite images<br>processed`,"eco_w3":`Geospatial records<br>processed`,"eco_w4":`Years in the<br>primary sector`,"eye_stack":`Tech Stack`,"stack_h":`The tools <em style="color:var(--blue)">of the trade.</em>`,"eye_collab":`Collaborate`,"collab_h":`Let's work <em style="color:var(--green)">together.</em>`,"col_t1":`GeoAI Consulting`,"col_b1":`Technical and strategic advice on geospatial AI projects: from problem definition to solution architecture. For companies that need expert judgment on territorial data.`,"col_t2":`Custom projects`,"col_b2":`End-to-end solution development: satellite and sensor data pipelines, ML/DL models in production, and impact dashboards. For agritech, forestry, spacetech, and public administration.`,"col_t3":`Collaborations &amp; startups`,"col_b3":`Collaboration with startups and technical teams in the primary sector and remote sensing. I bring experience built across 5+ European startups and 50+ real projects.`,"eye_contact":`Contact`,"contact_t":`Got something<br><em>in mind?</em>`,"contact_d":`If you work in agritech, forestry, livestock, spacetech, or public administration with geospatial analytics needs — get in touch. I'm always open to interesting conversations.`,"li_val":`View profile and latest posts`} };
+  function setLang(lang){
+    if(!I18N[lang]) lang='es';
+    document.documentElement.lang=lang;
+    var d=I18N[lang];
+    document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');if(d[k]!=null)el.innerHTML=d[k];});
+    document.querySelectorAll('.lang-switch button').forEach(function(b){var on=b.getAttribute('data-lang')===lang;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);});
+  }
+  document.querySelectorAll('.lang-switch button').forEach(function(b){b.addEventListener('click',function(){setLang(b.getAttribute('data-lang'));});});
+  setLang('es');
 })();
 </script>
 </body>

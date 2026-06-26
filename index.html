@@ -20,8 +20,7 @@
   --font-d:'Outfit',sans-serif; --font-t:'Space Grotesk',sans-serif; --font-m:'DM Mono',monospace;
 }
 html { scroll-behavior: smooth; overflow-x: hidden; }
-body { font-family:var(--font-d); background:var(--bg); color:var(--text); overflow-x:hidden; cursor:none; line-height:1.5; }
-@media (hover:none),(pointer:coarse){ body{cursor:auto;} .reticle,.reticle-dot{display:none!important;} }
+body { font-family:var(--font-d); background:var(--bg); color:var(--text); overflow-x:hidden; line-height:1.5; }
 ::selection { background:rgba(0,255,156,0.25); color:#fff; }
 a:focus-visible, button:focus-visible, .proj-card:focus-visible, .contact-link:focus-visible {
   outline:2px solid var(--ring); outline-offset:3px; border-radius:3px;
@@ -32,14 +31,9 @@ img,svg,canvas { display:block; max-width:100%; }
 #progress { position:fixed; top:0; left:0; height:2px; width:0%; z-index:9998;
   background:linear-gradient(90deg,var(--blue),var(--green)); box-shadow:0 0 12px rgba(0,255,156,0.6); transition:width 0.1s linear; }
 
-/* ---- Custom reticle cursor ---- */
-.reticle { position:fixed; top:0; left:0; z-index:9999; width:38px; height:38px; pointer-events:none; transform:translate(-50%,-50%); mix-blend-mode:difference; transition:width 0.25s,height 0.25s; }
-.reticle::before,.reticle::after { content:''; position:absolute; background:var(--green); }
-.reticle::before { left:50%; top:0; width:1px; height:100%; transform:translateX(-50%); }
-.reticle::after { top:50%; left:0; height:1px; width:100%; transform:translateY(-50%); }
-.reticle-ring { position:absolute; inset:8px; border:1px solid var(--green); border-radius:50%; opacity:0.6; }
-.reticle.hot { width:56px; height:56px; }
-.reticle-dot { position:fixed; top:0; left:0; z-index:9999; width:4px; height:4px; border-radius:50%; background:var(--green); pointer-events:none; transform:translate(-50%,-50%); box-shadow:0 0 8px var(--green); }
+/* ---- Toast ---- */
+#toast { position:fixed; left:50%; bottom:32px; transform:translateX(-50%) translateY(20px); z-index:9998; background:rgba(6,6,26,0.95); border:0.5px solid rgba(0,255,156,0.4); border-radius:4px; padding:12px 20px; font-family:var(--font-m); font-size:11px; letter-spacing:0.06em; color:var(--green); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); box-shadow:0 12px 40px rgba(0,0,0,0.5); opacity:0; pointer-events:none; transition:opacity 0.25s,transform 0.25s; max-width:90vw; }
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
 /* ---- Boot ---- */
 #boot { position:fixed; inset:0; z-index:10000; background:var(--bg); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px; transition:opacity 0.8s,visibility 0.8s; }
@@ -348,8 +342,7 @@ footer { border-top:0.5px solid var(--border); padding:28px var(--pad-x); displa
 <body>
 
 <div id="progress" aria-hidden="true"></div>
-<div class="reticle" id="reticle" aria-hidden="true"><div class="reticle-ring"></div></div>
-<div class="reticle-dot" id="reticleDot" aria-hidden="true"></div>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <div id="boot" role="status" aria-label="Cargando interfaz">
   <div class="boot-logo">GEOAI INTERFACE</div>
@@ -445,12 +438,12 @@ footer { border-top:0.5px solid var(--border); padding:28px var(--pad-x); displa
   </div>
 </div>
 
-<section class="stats-bento" aria-label="Métricas clave">
-  <div class="bento-stat reveal"><p class="bento-num" data-count="1" data-suffix="M Ha" data-prefix="+">+1M Ha</p><p class="bento-lbl">Territory<br>analysed</p></div>
-  <div class="bento-stat reveal d1"><p class="bento-num" data-count="50" data-prefix="+">+50</p><p class="bento-lbl">Projects<br>delivered</p></div>
-  <div class="bento-stat reveal d2"><p class="bento-num" data-count="30" data-prefix="+">+30</p><p class="bento-lbl">ML models<br>in production</p></div>
-  <div class="bento-stat reveal d3"><p class="bento-num" data-count="5" data-prefix="+">+5</p><p class="bento-lbl">European<br>startups</p></div>
-  <div class="bento-wide reveal d3">
+<section class="stats-bento reveal" aria-label="Métricas clave">
+  <div class="bento-stat"><p class="bento-num" data-count="1" data-suffix="M Ha" data-prefix="+">+1M Ha</p><p class="bento-lbl">Territory<br>analysed</p></div>
+  <div class="bento-stat"><p class="bento-num" data-count="50" data-prefix="+">+50</p><p class="bento-lbl">Projects<br>delivered</p></div>
+  <div class="bento-stat"><p class="bento-num" data-count="30" data-prefix="+">+30</p><p class="bento-lbl">ML models<br>in production</p></div>
+  <div class="bento-stat"><p class="bento-num" data-count="5" data-prefix="+">+5</p><p class="bento-lbl">European<br>startups</p></div>
+  <div class="bento-wide">
     <p class="bento-wide-t">El territorio como dato.<br><em>Los datos como impacto.</em></p>
     <p>7 años construyendo soluciones que funcionan en el campo, no solo en un notebook. Desde sensores GPS hasta modelos en producción.</p>
   </div>
@@ -523,29 +516,29 @@ footer { border-top:0.5px solid var(--border); padding:28px var(--pad-x); displa
     <div class="reveal"><p class="sec-eye">Projects</p><h2 class="sec-h">Trabajo <em style="color:var(--green)">en código.</em></h2></div>
     <a href="https://github.com/GuilledGeo" target="_blank" rel="noopener" class="proj-github-link reveal d1">↗ Ver GitHub completo</a>
   </div>
-  <div class="proj-grid">
-    <a href="https://github.com/GuilledGeo/analisis-axarquia-regadio" target="_blank" rel="noopener" class="proj-card reveal">
+  <div class="proj-grid reveal">
+    <a href="https://github.com/GuilledGeo/analisis-axarquia-regadio" target="_blank" rel="noopener" class="proj-card">
       <div class="proj-card-top"><span class="proj-icon">🛰️</span><span class="proj-status">GeoAI</span></div>
       <p class="proj-name">Análisis Axarquía Regadío</p>
       <p class="proj-desc">Evolución temporal del cambio de uso del suelo entre regadío y secano mediante parcelas catastrales e imágenes multiespectrales Sentinel-2. Detección de transiciones agrícolas en la comarca de la Axarquía a lo largo del tiempo.</p>
       <div class="proj-tags"><span class="proj-tag">Sentinel-2</span><span class="proj-tag">GEE</span><span class="proj-tag">Catastro</span><span class="proj-tag">Remote Sensing</span></div>
       <div class="proj-arrow">github.com/GuilledGeo →</div>
     </a>
-    <a href="https://github.com/GuilledGeo/churn-prediction" target="_blank" rel="noopener" class="proj-card reveal d1">
+    <a href="https://github.com/GuilledGeo/churn-prediction" target="_blank" rel="noopener" class="proj-card">
       <div class="proj-card-top"><span class="proj-icon">🔄</span><span class="proj-status">ML · MLOps</span></div>
       <p class="proj-name">Churn Prediction System</p>
       <p class="proj-desc">Sistema end-to-end de predicción de abandono de clientes: desde EDA hasta API desplegable con FastAPI y Docker, con modelado, testing y CI/CD. Modelo final Gradient Boosting con ROC AUC de 0.84.</p>
       <div class="proj-tags"><span class="proj-tag">FastAPI</span><span class="proj-tag">Docker</span><span class="proj-tag">CI/CD</span><span class="proj-tag">scikit-learn</span></div>
       <div class="proj-arrow">github.com/GuilledGeo →</div>
     </a>
-    <a href="https://github.com/GuilledGeo/retail-sales-insights" target="_blank" rel="noopener" class="proj-card reveal">
+    <a href="https://github.com/GuilledGeo/retail-sales-insights" target="_blank" rel="noopener" class="proj-card">
       <div class="proj-card-top"><span class="proj-icon">🛒</span><span class="proj-status">Analytics · EDA</span></div>
       <p class="proj-name">Retail Sales Insights</p>
       <p class="proj-desc">Análisis exploratorio de un dataset de retail para descubrir patrones de ventas por categoría, región y comportamiento de cliente. Visualización de tendencias y estacionalidad con recomendaciones de negocio accionables.</p>
       <div class="proj-tags"><span class="proj-tag">pandas</span><span class="proj-tag">Plotly</span><span class="proj-tag">Power BI</span><span class="proj-tag">EDA</span></div>
       <div class="proj-arrow">github.com/GuilledGeo →</div>
     </a>
-    <a href="https://github.com/GuilledGeo" target="_blank" rel="noopener" class="proj-card reveal d1">
+    <a href="https://github.com/GuilledGeo" target="_blank" rel="noopener" class="proj-card">
       <div class="proj-card-top"><span class="proj-icon">📦</span><span class="proj-status">More</span></div>
       <p class="proj-name">Más proyectos en GitHub</p>
       <p class="proj-desc">Explora el resto de mi portfolio de ciencia de datos, GeoAI y teledetección — pipelines, modelos y análisis aplicados al sector primario y al territorio.</p>
@@ -557,11 +550,11 @@ footer { border-top:0.5px solid var(--border); padding:28px var(--pad-x); displa
 
 <section class="eco-section" id="ecosystems">
   <div class="reveal"><p class="sec-eye">Ecosystems</p><h2 class="sec-h">Tres ecosistemas. <em style="color:var(--green)">Un mismo enfoque.</em></h2></div>
-  <div class="eco-bento">
-    <div class="eco-card green reveal"><span class="eco-bg-num">01</span><span class="eco-icon">🌱</span><p class="eco-name">Agritech</p><p class="eco-sub">Agricultura · Forestal · Suelo</p><p class="eco-body">Modelos predictivos sobre cultivos, análisis de índices de vegetación, inventarios forestales automatizados y gestión de recursos basada en datos satelitales.</p></div>
-    <div class="eco-card blue reveal d1"><span class="eco-bg-num">02</span><span class="eco-icon">🛰️</span><p class="eco-name">Spacetech</p><p class="eco-sub">Satélite · Teledetección · GeoAI</p><p class="eco-body">Procesamiento de imágenes multiespectrales y SAR, pipelines de análisis de series temporales satelitales y algoritmos GeoAI sobre plataformas cloud.</p></div>
-    <div class="eco-card purple reveal d2"><span class="eco-bg-num">03</span><span class="eco-icon">🐄</span><p class="eco-name">Animaltech</p><p class="eco-sub">Ganadería · GPS · IoT · Sensor</p><p class="eco-body">Algoritmos de monitorización en tiempo real sobre datos de collarines GPS y acelerómetro. Detección de celos, partos y anomalías en ganadería extensiva.</p></div>
-    <div class="eco-wide reveal d2">
+  <div class="eco-bento reveal">
+    <div class="eco-card green"><span class="eco-bg-num">01</span><span class="eco-icon">🌱</span><p class="eco-name">Agritech</p><p class="eco-sub">Agricultura · Forestal · Suelo</p><p class="eco-body">Modelos predictivos sobre cultivos, análisis de índices de vegetación, inventarios forestales automatizados y gestión de recursos basada en datos satelitales.</p></div>
+    <div class="eco-card blue"><span class="eco-bg-num">02</span><span class="eco-icon">🛰️</span><p class="eco-name">Spacetech</p><p class="eco-sub">Satélite · Teledetección · GeoAI</p><p class="eco-body">Procesamiento de imágenes multiespectrales y SAR, pipelines de análisis de series temporales satelitales y algoritmos GeoAI sobre plataformas cloud.</p></div>
+    <div class="eco-card purple"><span class="eco-bg-num">03</span><span class="eco-icon">🐄</span><p class="eco-name">Animaltech</p><p class="eco-sub">Ganadería · GPS · IoT · Sensor</p><p class="eco-body">Algoritmos de monitorización en tiempo real sobre datos de collarines GPS y acelerómetro. Detección de celos, partos y anomalías en ganadería extensiva.</p></div>
+    <div class="eco-wide">
       <div class="eco-wide-item"><p class="eco-wide-num"><i>+</i>10K</p><p class="eco-wide-lbl">Cabezas de ganado<br>monitorizadas</p></div>
       <div class="eco-wide-item"><p class="eco-wide-num"><i>+</i>25K</p><p class="eco-wide-lbl">Imágenes satelitales<br>procesadas</p></div>
       <div class="eco-wide-item"><p class="eco-wide-num"><i>+</i>50M</p><p class="eco-wide-lbl">Registros geoespaciales<br>procesados</p></div>
@@ -581,10 +574,10 @@ footer { border-top:0.5px solid var(--border); padding:28px var(--pad-x); displa
 
 <section class="collab-section" id="collaborate">
   <div class="reveal"><p class="sec-eye">Collaborate</p><h2 class="sec-h">Trabajemos <em style="color:var(--green)">juntos.</em></h2></div>
-  <div class="collab-grid">
-    <div class="collab-card reveal"><span class="collab-icon">🧠</span><p class="collab-title">Consultoría GeoAI</p><p class="collab-body">Asesoramiento técnico y estratégico en proyectos de inteligencia artificial geoespacial: desde la definición del problema hasta la arquitectura de la solución. Para empresas que necesitan criterio experto sobre datos del territorio.</p></div>
-    <div class="collab-card reveal d1"><span class="collab-icon">⚙️</span><p class="collab-title">Proyectos a medida</p><p class="collab-body">Desarrollo de soluciones end-to-end: pipelines de datos satelitales y de sensor, modelos ML/DL en producción y dashboards de impacto. Para agritech, forestal, spacetech y administraciones.</p></div>
-    <div class="collab-card reveal d2"><span class="collab-icon">🤝</span><p class="collab-title">Colaboraciones &amp; startups</p><p class="collab-body">Colaboración con startups y equipos técnicos en el ámbito del sector primario y la teledetección. Aporto experiencia construida en más de 5 startups europeas y +50 proyectos reales.</p></div>
+  <div class="collab-grid reveal">
+    <div class="collab-card"><span class="collab-icon">🧠</span><p class="collab-title">Consultoría GeoAI</p><p class="collab-body">Asesoramiento técnico y estratégico en proyectos de inteligencia artificial geoespacial: desde la definición del problema hasta la arquitectura de la solución. Para empresas que necesitan criterio experto sobre datos del territorio.</p></div>
+    <div class="collab-card"><span class="collab-icon">⚙️</span><p class="collab-title">Proyectos a medida</p><p class="collab-body">Desarrollo de soluciones end-to-end: pipelines de datos satelitales y de sensor, modelos ML/DL en producción y dashboards de impacto. Para agritech, forestal, spacetech y administraciones.</p></div>
+    <div class="collab-card"><span class="collab-icon">🤝</span><p class="collab-title">Colaboraciones &amp; startups</p><p class="collab-body">Colaboración con startups y equipos técnicos en el ámbito del sector primario y la teledetección. Aporto experiencia construida en más de 5 startups europeas y +50 proyectos reales.</p></div>
   </div>
 </section>
 
@@ -627,18 +620,6 @@ footer { border-top:0.5px solid var(--border); padding:28px var(--pad-x); displa
     },130);
   })();
 
-  /* ---- Reticle cursor ---- */
-  if(!reduce && window.matchMedia('(hover:hover)').matches){
-    var r=document.getElementById('reticle'),d=document.getElementById('reticleDot');
-    var rx=0,ry=0,dx=0,dy=0,cx=0,cy=0;
-    document.addEventListener('mousemove',function(e){rx=e.clientX;ry=e.clientY;dx=e.clientX;dy=e.clientY;});
-    (function loop(){cx+=(rx-cx)*0.18;cy+=(ry-cy)*0.18;r.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';d.style.transform='translate('+dx+'px,'+dy+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
-    document.querySelectorAll('a,button,.proj-card,.eco-card,.collab-card,.exp-col').forEach(function(el){
-      el.addEventListener('mouseenter',function(){r.classList.add('hot');});
-      el.addEventListener('mouseleave',function(){r.classList.remove('hot');});
-    });
-  }
-
   /* ---- Nav state + scroll progress ---- */
   var nav=document.getElementById('nav'),prog=document.getElementById('progress');
   function onScroll(){
@@ -677,6 +658,21 @@ footer { border-top:0.5px solid var(--border); padding:28px var(--pad-x); displa
   document.querySelectorAll('.proj-card').forEach(function(card){
     card.addEventListener('mousemove',function(e){var b=card.getBoundingClientRect();card.style.setProperty('--mx',((e.clientX-b.left)/b.width*100)+'%');card.style.setProperty('--my',((e.clientY-b.top)/b.height*100)+'%');});
   });
+
+  /* ---- Email: copia al portapapeles + intenta abrir el cliente de correo ---- */
+  (function(){
+    var toast=document.getElementById('toast'),tHide;
+    function showToast(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show'); clearTimeout(tHide); tHide=setTimeout(function(){toast.classList.remove('show');},2600); }
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function(a){
+      a.addEventListener('click',function(){
+        var email=a.getAttribute('href').replace('mailto:','').split('?')[0];
+        if(navigator.clipboard&&navigator.clipboard.writeText){
+          navigator.clipboard.writeText(email).then(function(){showToast('✓ Email copiado · '+email);}).catch(function(){showToast(email);});
+        } else { showToast(email); }
+        // El href mailto sigue activo: abrirá el cliente de correo si existe.
+      });
+    });
+  })();
 
   /* ---- Hero NDVI field ---- */
   (function(){

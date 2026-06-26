@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guillermo Durántez Quill — GeoAI & Data Science</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:     #03030a;
+  --bg2:    #07071a;
+  --bg3:    #0c0c25;
+  --green:  #00FF87;
+  --green2: #00CC6A;
+  --blue:   #00BFFF;
+  --blue2:  #0080FF;
+  --purple: #8B5CF6;
+  --amber:  #F59E0B;
+  --text:   #F0F0FF;
+  --text2:  #7070A0;
+  --text3:  #2a2a50;
+  --border: rgba(255,255,255,0.06);
+  --gn:     rgba(0,255,135,0.1);
+  --bl:     rgba(0,191,255,0.1);
+}
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  padding: 18px 48px;
+  display: flex; justify-content: space-between; align-items: center;
+  transition: all 0.4s;
+}
+nav.scrolled { background: rgba(3,3,10,0.9); backdrop-filter: blur(20px); border-bottom: 0.5px solid var(--border); }
+.nav-logo { font-size: 14px; font-weight: 700; color: var(--text); letter-spacing: 0.02em; }
+.nav-logo span { color: var(--green); }
+.nav-links { display: flex; gap: 32px; }
+.nav-links a { font-size: 11px; color: var(--text2); text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.2s; }
+.nav-links a:hover { color: var(--green); }
+.nav-cta { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bg); background: var(--green); padding: 10px 22px; border-radius: 2px; text-decoration: none; box-shadow: 0 0 24px rgba(0,255,135,0.4); transition: all 0.2s; }
+.nav-cta:hover { box-shadow: 0 0 40px rgba(0,255,135,0.6); }
+
+/* ── HERO ── */
+.hero { min-height: 100vh; position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
+canvas#bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+.hero-grid-overlay { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,255,135,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,135,0.03) 1px, transparent 1px); background-size: 50px 50px; z-index: 1; }
+.hero-fade-left { position: absolute; inset: 0; background: linear-gradient(90deg, var(--bg) 30%, transparent 70%); z-index: 2; }
+.hero-fade-bottom { position: absolute; bottom: 0; left: 0; right: 0; height: 200px; background: linear-gradient(transparent, var(--bg)); z-index: 2; }
+
+/* LEFT */
+.hero-left { position: relative; z-index: 10; padding: 140px 48px 100px; }
+.hero-tag { display: inline-flex; align-items: center; gap: 8px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--green); letter-spacing: 0.2em; text-transform: uppercase; padding: 6px 14px; border: 0.5px solid rgba(0,255,135,0.3); border-radius: 2px; background: rgba(0,255,135,0.05); margin-bottom: 28px; }
+.hero-tag-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.hero-name { font-size: clamp(44px, 6vw, 80px); font-weight: 800; line-height: 0.92; letter-spacing: -0.03em; margin-bottom: 20px; }
+.hero-name .line2 { color: var(--green); -webkit-text-stroke: 0px; }
+.hero-name .line3 { color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.2); }
+.hero-sub { font-size: clamp(13px, 1.6vw, 17px); font-weight: 300; color: var(--text2); line-height: 1.6; margin-bottom: 40px; max-width: 420px; }
+.hero-sub strong { color: var(--blue); font-weight: 500; }
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 48px; }
+.btn-g { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bg); background: var(--green); padding: 13px 28px; border-radius: 2px; text-decoration: none; box-shadow: 0 0 28px rgba(0,255,135,0.4); transition: all 0.2s; }
+.btn-g:hover { box-shadow: 0 0 48px rgba(0,255,135,0.6); transform: translateY(-2px); }
+.btn-o { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); border: 0.5px solid var(--border); padding: 13px 28px; border-radius: 2px; text-decoration: none; transition: all 0.2s; }
+.btn-o:hover { border-color: rgba(0,255,135,0.3); color: var(--green); }
+
+/* Mini stats row */
+.hero-mini-stats { display: flex; gap: 28px; }
+.mini-stat { display: flex; flex-direction: column; gap: 3px; }
+.mini-num { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+.mini-num em { color: var(--green); font-style: normal; }
+.mini-lbl { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* RIGHT — Satellite visualization */
+.hero-right { position: relative; z-index: 10; display: flex; align-items: center; justify-content: center; padding: 140px 48px 100px 0; }
+.satellite-scene { position: relative; width: 420px; height: 420px; }
+
+/* Orbit rings */
+.orbit { position: absolute; border-radius: 50%; border: 0.5px solid; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: spin linear infinite; }
+.orbit-1 { width: 360px; height: 360px; border-color: rgba(0,255,135,0.1); animation-duration: 20s; }
+.orbit-2 { width: 280px; height: 280px; border-color: rgba(0,191,255,0.08); animation-duration: 14s; animation-direction: reverse; }
+.orbit-3 { width: 200px; height: 200px; border-color: rgba(139,92,246,0.08); animation-duration: 9s; }
+@keyframes spin { from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(360deg)} }
+
+/* Orbit dots */
+.orbit-dot { position: absolute; border-radius: 50%; }
+.orbit-1 .orbit-dot { width: 8px; height: 8px; background: var(--green); box-shadow: 0 0 12px var(--green); top: -4px; left: 50%; transform: translateX(-50%); }
+.orbit-2 .orbit-dot { width: 6px; height: 6px; background: var(--blue); box-shadow: 0 0 10px var(--blue); top: -3px; left: 50%; transform: translateX(-50%); }
+.orbit-3 .orbit-dot { width: 5px; height: 5px; background: var(--purple); box-shadow: 0 0 8px var(--purple); top: -2.5px; left: 50%; transform: translateX(-50%); }
+
+/* Satellite body */
+.satellite-body { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; animation: floatsat 6s ease-in-out infinite; }
+@keyframes floatsat { 0%,100%{transform:translate(-50%,-50%) translateY(0) rotate(0deg)} 50%{transform:translate(-50%,-50%) translateY(-10px) rotate(2deg)} }
+.sat-svg { width: 100px; height: 100px; filter: drop-shadow(0 0 20px rgba(0,255,135,0.4)); }
+
+/* Glow center */
+.sat-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(0,255,135,0.15) 0%, transparent 70%); z-index: 5; animation: pulse-glow 3s ease-in-out infinite; }
+@keyframes pulse-glow { 0%,100%{opacity:0.6;transform:translate(-50%,-50%) scale(1)} 50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)} }
+
+/* Data cards around satellite */
+.data-card { position: absolute; background: rgba(7,7,26,0.85); border: 0.5px solid; border-radius: 4px; padding: 10px 14px; backdrop-filter: blur(10px); white-space: nowrap; z-index: 20; }
+.data-card-title { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 3px; }
+.data-card-val { font-size: 14px; font-weight: 700; line-height: 1; }
+.dc-1 { top: 10%; right: -20%; border-color: rgba(0,255,135,0.25); animation: floatcard1 5s ease-in-out infinite; }
+.dc-1 .data-card-title { color: var(--green); }
+.dc-1 .data-card-val { color: var(--text); }
+.dc-2 { bottom: 18%; right: -15%; border-color: rgba(0,191,255,0.25); animation: floatcard2 7s ease-in-out infinite; }
+.dc-2 .data-card-title { color: var(--blue); }
+.dc-2 .data-card-val { color: var(--text); }
+.dc-3 { bottom: 10%; left: -18%; border-color: rgba(139,92,246,0.25); animation: floatcard3 6s ease-in-out infinite; }
+.dc-3 .data-card-title { color: var(--purple); }
+.dc-3 .data-card-val { color: var(--text); }
+.dc-4 { top: 12%; left: -12%; border-color: rgba(245,158,11,0.25); animation: floatcard1 8s ease-in-out infinite reverse; }
+.dc-4 .data-card-title { color: var(--amber); }
+.dc-4 .data-card-val { color: var(--text); }
+@keyframes floatcard1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+@keyframes floatcard2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+@keyframes floatcard3 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+
+/* Scan line on satellite */
+.sat-scanline { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 360px; height: 2px; background: linear-gradient(90deg, transparent, rgba(0,255,135,0.6), transparent); animation: scan 3s ease-in-out infinite; z-index: 15; }
+@keyframes scan { 0%{top:20%;opacity:0} 10%{opacity:1} 90%{opacity:1} 100%{top:80%;opacity:0} }
+
+/* ── MARQUEE ── */
+.marquee-wrap { overflow: hidden; border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); background: var(--bg2); padding: 12px 0; }
+.marquee-track { display: flex; animation: marquee 30s linear infinite; width: max-content; }
+.marquee-item { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap; padding: 0 28px; color: var(--text3); display: flex; align-items: center; gap: 28px; }
+.marquee-item span { color: var(--green); }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ── STATS BENTO ── */
+.stats-bento { display: grid; grid-template-columns: repeat(4, 1fr) 2fr; gap: 1px; background: var(--border); border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); }
+.bento-stat { background: var(--bg2); padding: 40px 32px; display: flex; flex-direction: column; gap: 8px; transition: background 0.3s; position: relative; overflow: hidden; }
+.bento-stat:hover { background: var(--bg3); }
+.bento-stat::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--green), transparent); transform: scaleX(0); transition: transform 0.4s; }
+.bento-stat:hover::after { transform: scaleX(1); }
+.bento-num { font-size: clamp(28px, 3vw, 44px); font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
+.bento-num em { color: var(--green); font-style: normal; }
+.bento-lbl { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text3); letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.5; }
+.bento-wide { background: var(--bg2); padding: 40px 36px; display: flex; flex-direction: column; justify-content: center; gap: 12px; position: relative; overflow: hidden; }
+.bento-wide-title { font-size: 18px; font-weight: 600; color: var(--text); line-height: 1.3; }
+.bento-wide-title em { color: var(--green); font-style: normal; }
+.bento-wide p { font-size: 13px; color: var(--text2); font-weight: 300; line-height: 1.7; }
+
+/* ── ABOUT BLOCKS ── */
+.about-section { padding: 100px 48px; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.about-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--green); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+.about-eyebrow::before { content: ''; width: 20px; height: 0.5px; background: var(--green); }
+.about-h { font-size: clamp(28px, 4vw, 44px); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 32px; }
+.about-h em { color: var(--green); font-style: normal; }
+.about-txt { font-size: 15px; color: var(--text2); line-height: 1.85; font-weight: 300; margin-bottom: 18px; }
+.about-txt strong { color: var(--text); font-weight: 500; }
+.degrees { display: flex; flex-direction: column; gap: 1px; background: var(--border); }
+.deg { background: var(--bg2); padding: 24px 28px; display: flex; gap: 20px; align-items: flex-start; transition: all 0.25s; cursor: default; position: relative; overflow: hidden; }
+.deg::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--green); transform: scaleY(0); transition: transform 0.3s; transform-origin: bottom; }
+.deg:hover { background: var(--bg3); transform: translateX(4px); }
+.deg:hover::before { transform: scaleY(1); }
+.deg-year { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--green); letter-spacing: 0.08em; flex-shrink: 0; padding-top: 3px; }
+.deg-info {}
+.deg-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.deg-uni { font-size: 12px; color: var(--text3); font-weight: 300; }
+
+/* ── EXPERTISE COLUMNS ── */
+.expertise-section { padding: 100px 48px; background: var(--bg2); border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); }
+.exp-header { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end; margin-bottom: 64px; }
+.exp-h { font-size: clamp(28px, 4vw, 44px); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; }
+.exp-h em { color: var(--blue); font-style: normal; }
+.exp-desc { font-size: 15px; color: var(--text2); font-weight: 300; line-height: 1.8; }
+.exp-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+.exp-col { background: var(--bg2); padding: 36px 28px; display: flex; flex-direction: column; gap: 12px; transition: background 0.2s; position: relative; overflow: hidden; }
+.exp-col::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at top left, rgba(0,255,135,0.05) 0%, transparent 55%); opacity: 0; transition: opacity 0.3s; }
+.exp-col:hover { background: rgba(12,12,37,0.8); }
+.exp-col:hover::before { opacity: 1; }
+.exp-col-code { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--green); letter-spacing: 0.16em; opacity: 0.5; }
+.exp-col-title { font-size: 16px; font-weight: 700; color: var(--text); }
+.exp-col-body { font-size: 13px; color: var(--text2); line-height: 1.75; font-weight: 300; flex: 1; }
+.exp-col-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.exp-tag { font-size: 9px; padding: 2px 8px; border-radius: 2px; border: 0.5px solid rgba(0,255,135,0.18); color: var(--green); font-family: 'DM Mono', monospace; letter-spacing: 0.05em; }
+
+/* ── ECO BENTO ── */
+.eco-section { padding: 100px 48px; }
+.eco-bento { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: auto auto; gap: 16px; margin-top: 64px; }
+.eco-card { padding: 40px 36px; border-radius: 4px; border: 0.5px solid var(--border); position: relative; overflow: hidden; transition: all 0.3s; }
+.eco-card:hover { transform: translateY(-4px); }
+.eco-bg-num { position: absolute; bottom: -20px; right: 10px; font-size: 100px; font-weight: 800; letter-spacing: -0.04em; opacity: 0.04; line-height: 1; }
+.eco-icon { font-size: 32px; margin-bottom: 20px; display: block; }
+.eco-name { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.eco-sub { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 16px; }
+.eco-body { font-size: 13px; color: var(--text2); line-height: 1.75; font-weight: 300; }
+.eco-card.green { background: linear-gradient(135deg, rgba(0,255,135,0.07) 0%, transparent 55%); }
+.eco-card.green:hover { border-color: rgba(0,255,135,0.3); box-shadow: 0 24px 60px rgba(0,255,135,0.08); }
+.eco-card.green .eco-sub { color: var(--green); }
+.eco-card.blue { background: linear-gradient(135deg, rgba(0,191,255,0.07) 0%, transparent 55%); }
+.eco-card.blue:hover { border-color: rgba(0,191,255,0.3); box-shadow: 0 24px 60px rgba(0,191,255,0.08); }
+.eco-card.blue .eco-sub { color: var(--blue); }
+.eco-card.purple { background: linear-gradient(135deg, rgba(139,92,246,0.07) 0%, transparent 55%); }
+.eco-card.purple:hover { border-color: rgba(139,92,246,0.3); box-shadow: 0 24px 60px rgba(139,92,246,0.08); }
+.eco-card.purple .eco-sub { color: var(--purple); }
+
+/* Wide eco card */
+.eco-wide { grid-column: 1 / -1; padding: 40px 48px; background: var(--bg2); border: 0.5px solid var(--border); border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 40px; align-items: center; }
+.eco-wide-item { display: flex; flex-direction: column; gap: 6px; }
+.eco-wide-num { font-size: 36px; font-weight: 800; letter-spacing: -0.02em; color: var(--text); line-height: 1; }
+.eco-wide-num em { color: var(--green); font-style: normal; }
+.eco-wide-lbl { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text3); letter-spacing: 0.12em; text-transform: uppercase; }
+.eco-wide-divider { width: 0.5px; height: 60px; background: var(--border); justify-self: center; }
+
+/* ── STACK ── */
+.stack-section { padding: 100px 48px; background: var(--bg2); border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); }
+.stack-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); margin-top: 64px; }
+.stack-col { background: var(--bg2); padding: 32px 28px; }
+.stack-col-title { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--green); letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 0.5px solid var(--border); }
+.stack-items { display: flex; flex-direction: column; gap: 8px; }
+.stack-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text2); font-weight: 300; padding: 6px 0; border-bottom: 0.5px solid rgba(255,255,255,0.03); transition: color 0.2s; }
+.stack-item:hover { color: var(--text); }
+.stack-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--green); opacity: 0.4; flex-shrink: 0; }
+
+/* ── CONTACT ── */
+.contact-section { padding: 120px 48px; position: relative; overflow: hidden; }
+.contact-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 700px; height: 500px; background: radial-gradient(ellipse, rgba(0,255,135,0.05) 0%, transparent 65%); pointer-events: none; }
+.contact-inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.contact-left {}
+.contact-title { font-size: clamp(32px, 5vw, 56px); font-weight: 800; line-height: 1.0; letter-spacing: -0.03em; margin-bottom: 20px; }
+.contact-title em { color: var(--green); font-style: normal; }
+.contact-desc { font-size: 15px; color: var(--text2); line-height: 1.85; font-weight: 300; }
+.contact-right { display: flex; flex-direction: column; gap: 12px; }
+.contact-link { display: flex; align-items: center; gap: 16px; padding: 20px 24px; border: 0.5px solid var(--border); border-radius: 4px; background: var(--bg2); text-decoration: none; transition: all 0.25s; }
+.contact-link:hover { border-color: rgba(0,255,135,0.3); transform: translateX(6px); background: rgba(0,255,135,0.04); }
+.cl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.cl-dot.g { background: var(--green); box-shadow: 0 0 10px var(--green); }
+.cl-dot.b { background: var(--blue); box-shadow: 0 0 10px var(--blue); }
+.cl-label { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text3); letter-spacing: 0.14em; text-transform: uppercase; min-width: 60px; }
+.cl-value { font-size: 13px; color: var(--text2); flex: 1; }
+.cl-arr { color: var(--text3); transition: color 0.2s; }
+.contact-link:hover .cl-arr { color: var(--green); }
+
+/* ── FOOTER ── */
+footer { border-top: 0.5px solid var(--border); padding: 28px 48px; display: flex; justify-content: space-between; align-items: center; }
+.footer-logo { font-size: 13px; font-weight: 700; color: var(--text); }
+.footer-logo span { color: var(--green); }
+.footer-mono { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 0.1em; }
+
+/* ── SCROLL HINT ── */
+.scroll-hint { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.scroll-hint span { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text3); letter-spacing: 0.2em; text-transform: uppercase; }
+.scroll-line { width: 0.5px; height: 40px; background: linear-gradient(to bottom, var(--green), transparent); animation: scrolldn 2s infinite; }
+@keyframes scrolldn { 0%{transform:scaleY(0);transform-origin:top} 50%{transform:scaleY(1);transform-origin:top} 51%{transform:scaleY(1);transform-origin:bottom} 100%{transform:scaleY(0);transform-origin:bottom} }
+
+/* ── SECTION LABEL ── */
+.sec-eye { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--green); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+.sec-eye::before { content: ''; width: 20px; height: 0.5px; background: var(--green); }
+.sec-h { font-size: clamp(28px, 4vw, 44px); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 12px; }
+.sec-h em { font-style: normal; }
+
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .hero-left { padding: 100px 24px 80px; }
+  .stats-bento { grid-template-columns: 1fr 1fr; }
+  .bento-wide { grid-column: 1/-1; }
+  .about-grid, .exp-header, .contact-inner { grid-template-columns: 1fr; gap: 40px; }
+  .exp-cols, .stack-grid { grid-template-columns: 1fr; }
+  .eco-bento { grid-template-columns: 1fr; }
+  .eco-wide { grid-template-columns: 1fr 1fr; }
+  .about-section, .expertise-section, .eco-section, .stack-section, .contact-section { padding: 64px 24px; }
+  footer { flex-direction: column; gap: 12px; text-align: center; padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">G. Durántez <span>·</span> GeoAI</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#expertise">Expertise</a>
+    <a href="#ecosystems">Ecosystems</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="#contact" class="nav-cta">Get in touch</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <canvas id="bg"></canvas>
+  <div class="hero-grid-overlay"></div>
+  <div class="hero-fade-left"></div>
+  <div class="hero-fade-bottom"></div>
+
+  <div class="hero-left">
+    <div class="hero-tag"><div class="hero-tag-dot"></div>Geospatial AI · Primary Sector</div>
+    <h1 class="hero-name">
+      <div>Guillermo</div>
+      <div class="line2">Durántez</div>
+      <div class="line3">Quill</div>
+    </h1>
+    <p class="hero-sub">Senior <strong>GeoAI & Data Science Specialist</strong><br>Agritech · Spacetech · Animaltech</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-g">Get in touch</a>
+      <a href="#about" class="btn-o">Learn more</a>
+    </div>
+    <div class="hero-mini-stats">
+      <div class="mini-stat"><span class="mini-num"><em>+</em>1M</span><span class="mini-lbl">Ha analysed</span></div>
+      <div class="mini-stat"><span class="mini-num"><em>+</em>50</span><span class="mini-lbl">Projects</span></div>
+      <div class="mini-stat"><span class="mini-num"><em>+</em>30</span><span class="mini-lbl">ML models</span></div>
+      <div class="mini-stat"><span class="mini-num"><em>+</em>5</span><span class="mini-lbl">Startups EU</span></div>
+    </div>
+  </div>
+
+  <!-- SATELLITE -->
+  <div class="hero-right">
+    <div class="satellite-scene">
+      <div class="orbit orbit-1"><div class="orbit-dot"></div></div>
+      <div class="orbit orbit-2"><div class="orbit-dot"></div></div>
+      <div class="orbit orbit-3"><div class="orbit-dot"></div></div>
+      <div class="sat-glow"></div>
+      <div class="sat-scanline"></div>
+
+      <!-- Data cards -->
+      <div class="data-card dc-1"><div class="data-card-title">Territory</div><div class="data-card-val">+1M Ha</div></div>
+      <div class="data-card dc-2"><div class="data-card-title">Precision</div><div class="data-card-val">Sentinel-2</div></div>
+      <div class="data-card dc-3"><div class="data-card-title">Live tracking</div><div class="data-card-val">+10K heads</div></div>
+      <div class="data-card dc-4"><div class="data-card-title">Models</div><div class="data-card-val">+30 in prod</div></div>
+
+      <!-- Satellite SVG -->
+      <div class="satellite-body">
+        <svg class="sat-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Body -->
+          <rect x="35" y="30" width="30" height="40" rx="3" fill="#0a0a1f" stroke="#00FF87" stroke-width="1.5"/>
+          <!-- Solar panels left -->
+          <rect x="5" y="38" width="28" height="24" rx="2" fill="#0a0a1f" stroke="#00A8FF" stroke-width="1"/>
+          <line x1="5" y1="44" x2="33" y2="44" stroke="#00A8FF" stroke-width="0.5" opacity="0.5"/>
+          <line x1="5" y1="50" x2="33" y2="50" stroke="#00A8FF" stroke-width="0.5" opacity="0.5"/>
+          <line x1="5" y1="56" x2="33" y2="56" stroke="#00A8FF" stroke-width="0.5" opacity="0.5"/>
+          <!-- Solar panels right -->
+          <rect x="67" y="38" width="28" height="24" rx="2" fill="#0a0a1f" stroke="#00A8FF" stroke-width="1"/>
+          <line x1="67" y1="44" x2="95" y2="44" stroke="#00A8FF" stroke-width="0.5" opacity="0.5"/>
+          <line x1="67" y1="50" x2="95" y2="50" stroke="#00A8FF" stroke-width="0.5" opacity="0.5"/>
+          <line x1="67" y1="56" x2="95" y2="56" stroke="#00A8FF" stroke-width="0.5" opacity="0.5"/>
+          <!-- Panel connectors -->
+          <rect x="33" y="47" width="2" height="6" fill="#00FF87" opacity="0.6"/>
+          <rect x="65" y="47" width="2" height="6" fill="#00FF87" opacity="0.6"/>
+          <!-- Antenna -->
+          <line x1="50" y1="30" x2="50" y2="16" stroke="#00FF87" stroke-width="1.5"/>
+          <circle cx="50" cy="14" r="3" fill="#00FF87" opacity="0.8"/>
+          <circle cx="50" cy="14" r="6" stroke="#00FF87" stroke-width="0.5" opacity="0.3"/>
+          <!-- Body details -->
+          <rect x="41" y="36" width="18" height="10" rx="1" fill="#00FF87" opacity="0.08"/>
+          <circle cx="50" cy="56" r="5" fill="none" stroke="#00FF87" stroke-width="1" opacity="0.5"/>
+          <circle cx="50" cy="56" r="2" fill="#00FF87" opacity="0.4"/>
+          <!-- Signal lines from antenna -->
+          <path d="M44 10 Q50 4 56 10" stroke="#00FF87" stroke-width="0.8" fill="none" opacity="0.3"/>
+          <path d="M40 8 Q50 0 60 8" stroke="#00FF87" stroke-width="0.6" fill="none" opacity="0.15"/>
+          <!-- Side thrusters -->
+          <rect x="35" y="64" width="6" height="8" rx="1" fill="#1a1a3f" stroke="#00A8FF" stroke-width="0.8"/>
+          <rect x="59" y="64" width="6" height="8" rx="1" fill="#1a1a3f" stroke="#00A8FF" stroke-width="0.8"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">GeoAI <span>·</span> Remote Sensing <span>·</span> Machine Learning <span>·</span> Deep Learning <span>·</span> Satellite Data <span>·</span> IoT Sensors <span>·</span> MLOps <span>·</span> Agritech <span>·</span> Spacetech <span>·</span> Animaltech <span>·</span> Data Engineering <span>·</span> Primary Sector <span>·</span> GIS <span>·</span> Python <span>·</span> Google Earth Engine <span>·</span></div>
+    <div class="marquee-item">GeoAI <span>·</span> Remote Sensing <span>·</span> Machine Learning <span>·</span> Deep Learning <span>·</span> Satellite Data <span>·</span> IoT Sensors <span>·</span> MLOps <span>·</span> Agritech <span>·</span> Spacetech <span>·</span> Animaltech <span>·</span> Data Engineering <span>·</span> Primary Sector <span>·</span> GIS <span>·</span> Python <span>·</span> Google Earth Engine <span>·</span></div>
+  </div>
+</div>
+
+<!-- STATS BENTO -->
+<div class="stats-bento">
+  <div class="bento-stat"><p class="bento-num"><em>+</em>1M Ha</p><p class="bento-lbl">Territory<br>analysed</p></div>
+  <div class="bento-stat"><p class="bento-num"><em>+</em>50</p><p class="bento-lbl">Projects<br>delivered</p></div>
+  <div class="bento-stat"><p class="bento-num"><em>+</em>30</p><p class="bento-lbl">ML models<br>in production</p></div>
+  <div class="bento-stat"><p class="bento-num"><em>+</em>5</p><p class="bento-lbl">European<br>startups</p></div>
+  <div class="bento-wide">
+    <p class="bento-wide-title">El territorio como dato.<br><em>Los datos como impacto.</em></p>
+    <p>7 años construyendo soluciones que funcionan en el campo, no solo en un notebook. Desde sensores GPS hasta modelos en producción.</p>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="about-grid">
+    <div>
+      <p class="about-eyebrow">About</p>
+      <h2 class="about-h">Científico de datos.<br><em>Del territorio<br>al impacto.</em></h2>
+      <p class="about-txt">Soy científico de datos especializado en inteligencia artificial geoespacial aplicada al sector primario e industrial. Durante los últimos <strong>7 años</strong> he trabajado en la intersección entre el análisis del territorio, el aprendizaje automático y la toma de decisiones basada en datos.</p>
+      <p class="about-txt">Mi vinculación con el ecosistema emprendedor — colaborando con <strong>más de 5 startups tecnológicas europeas</strong> de los ámbitos agritech, spacetech y animaltech — me ha dado la capacidad de traducir lo técnico a impacto de negocio real.</p>
+      <p class="about-txt">Mi formación en <strong>Geografía, Ingeniería Geomática y Data Science</strong> me da una perspectiva que pocos perfiles combinan: entender el territorio como dato, modelarlo con precisión y convertirlo en KPIs de negocio reales.</p>
+      <p class="about-txt" style="color: var(--text3); font-size: 13px;">Fuera del trabajo me muevo en la naturaleza, practico deporte al aire libre y llevo la cámara encima siempre que puedo. Observar el territorio desde el suelo y entenderlo desde los datos son dos formas de hacer lo mismo.</p>
+    </div>
+    <div class="degrees">
+      <div class="deg">
+        <span class="deg-year">22–23</span>
+        <div class="deg-info"><p class="deg-name">Máster en Data Science & Business Analytics</p><p class="deg-uni">Universidad Nebrija · ML · DL · BI · Cloud</p></div>
+      </div>
+      <div class="deg">
+        <span class="deg-year">21–22</span>
+        <div class="deg-info"><p class="deg-name">Máster en Ingeniería Geomática y Teledetección</p><p class="deg-uni">Universidad de Córdoba · Nota 8.3 · GEE · LiDAR · SIG</p></div>
+      </div>
+      <div class="deg">
+        <span class="deg-year">17–21</span>
+        <div class="deg-info"><p class="deg-name">Grado en Geografía y Gestión del Territorio</p><p class="deg-uni">Universidad de Málaga · Análisis territorial · Cartografía</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERTISE -->
+<section class="expertise-section" id="expertise">
+  <div class="exp-header">
+    <div>
+      <p class="sec-eye">Expertise</p>
+      <h2 class="exp-h">Dónde genero<br><em>impacto real.</em></h2>
+    </div>
+    <p class="exp-desc">No trabajo con datos en abstracto. Trabajo con datos del territorio, del sensor y del campo — y los convierto en sistemas que el equipo opera a diario.</p>
+  </div>
+  <div class="exp-cols">
+    <div class="exp-col">
+      <p class="exp-col-code">// GEO_AI</p>
+      <p class="exp-col-title">GeoAI & Remote Sensing</p>
+      <p class="exp-col-body">Clasificación de cubiertas, detección de cambios, análisis de vegetación y monitorización territorial sobre imágenes satelitales y datos LiDAR.</p>
+      <div class="exp-col-tags"><span class="exp-tag">GEE</span><span class="exp-tag">Sentinel-2</span><span class="exp-tag">GDAL</span><span class="exp-tag">rasterio</span></div>
+    </div>
+    <div class="exp-col">
+      <p class="exp-col-code">// ML_OPS</p>
+      <p class="exp-col-title">Machine Learning & MLOps</p>
+      <p class="exp-col-body">Diseño, entrenamiento y despliegue de modelos ML y Deep Learning en producción. Pipelines escalables, reproducibles y mantenibles.</p>
+      <div class="exp-col-tags"><span class="exp-tag">PyTorch</span><span class="exp-tag">XGBoost</span><span class="exp-tag">MLflow</span><span class="exp-tag">Docker</span></div>
+    </div>
+    <div class="exp-col">
+      <p class="exp-col-code">// IOT_SEN</p>
+      <p class="exp-col-title">Sensor & IoT Data</p>
+      <p class="exp-col-body">Procesamiento de datos de collarines GPS, acelerómetros, sensores multiespectrales y plataformas UAV para análisis en tiempo real.</p>
+      <div class="exp-col-tags"><span class="exp-tag">GPS</span><span class="exp-tag">IoT</span><span class="exp-tag">UAV</span><span class="exp-tag">Time series</span></div>
+    </div>
+    <div class="exp-col">
+      <p class="exp-col-code">// DAT_ENG</p>
+      <p class="exp-col-title">Data Engineering</p>
+      <p class="exp-col-body">Arquitecturas de datos geoespaciales end-to-end. ETL pipelines sobre BigQuery, Snowflake y Databricks que escalan a producción.</p>
+      <div class="exp-col-tags"><span class="exp-tag">BigQuery</span><span class="exp-tag">Snowflake</span><span class="exp-tag">Airflow</span><span class="exp-tag">Spark</span></div>
+    </div>
+    <div class="exp-col">
+      <p class="exp-col-code">// BIZ_INT</p>
+      <p class="exp-col-title">Analytics & BI</p>
+      <p class="exp-col-body">Dashboards que traducen el análisis geoespacial en KPIs accionables para equipos sin perfil técnico.</p>
+      <div class="exp-col-tags"><span class="exp-tag">Power BI</span><span class="exp-tag">Qlik</span><span class="exp-tag">Streamlit</span><span class="exp-tag">Plotly</span></div>
+    </div>
+    <div class="exp-col">
+      <p class="exp-col-code">// SPA_ANA</p>
+      <p class="exp-col-title">Spatial Analysis & GIS</p>
+      <p class="exp-col-body">Análisis espacial avanzado y cartografía aplicada a gestión forestal, planificación territorial y administraciones públicas.</p>
+      <div class="exp-col-tags"><span class="exp-tag">QGIS</span><span class="exp-tag">ArcGIS</span><span class="exp-tag">geopandas</span><span class="exp-tag">PostGIS</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ECOSYSTEMS -->
+<section class="eco-section" id="ecosystems">
+  <p class="sec-eye">Ecosystems</p>
+  <h2 class="sec-h">Tres ecosistemas. <em style="color:var(--green)">Un mismo enfoque.</em></h2>
+  <div class="eco-bento">
+    <div class="eco-card green">
+      <span class="eco-bg-num">01</span>
+      <span class="eco-icon">🌱</span>
+      <p class="eco-name">Agritech</p>
+      <p class="eco-sub">Agricultura · Forestal · Suelo</p>
+      <p class="eco-body">Modelos predictivos sobre cultivos, análisis de índices de vegetación, inventarios forestales automatizados y gestión de recursos basada en datos satelitales.</p>
+    </div>
+    <div class="eco-card blue">
+      <span class="eco-bg-num">02</span>
+      <span class="eco-icon">🛰️</span>
+      <p class="eco-name">Spacetech</p>
+      <p class="eco-sub">Satélite · Teledetección · GeoAI</p>
+      <p class="eco-body">Procesamiento de imágenes multiespectrales y SAR, pipelines de análisis de series temporales satelitales y algoritmos GeoAI sobre plataformas cloud.</p>
+    </div>
+    <div class="eco-card purple">
+      <span class="eco-bg-num">03</span>
+      <span class="eco-icon">🐄</span>
+      <p class="eco-name">Animaltech</p>
+      <p class="eco-sub">Ganadería · GPS · IoT · Sensor</p>
+      <p class="eco-body">Algoritmos de monitorización en tiempo real sobre datos de collarines GPS y acelerómetro. Detección de celos, partos y anomalías en ganadería extensiva.</p>
+    </div>
+    <div class="eco-wide">
+      <div class="eco-wide-item"><p class="eco-wide-num"><em>+</em>10K</p><p class="eco-wide-lbl">Cabezas de ganado<br>monitorizadas</p></div>
+      <div class="eco-wide-item"><p class="eco-wide-num"><em>+</em>25K</p><p class="eco-wide-lbl">Imágenes satelitales<br>procesadas</p></div>
+      <div class="eco-wide-item"><p class="eco-wide-num"><em>+</em>50M</p><p class="eco-wide-lbl">Registros geoespaciales<br>procesados</p></div>
+      <div class="eco-wide-item"><p class="eco-wide-num">7</p><p class="eco-wide-lbl">Años en sector<br>primario</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section class="stack-section" id="stack">
+  <p class="sec-eye">Tech Stack</p>
+  <h2 class="sec-h">Las herramientas <em style="color:var(--blue)">del oficio.</em></h2>
+  <div class="stack-grid">
+    <div class="stack-col">
+      <p class="stack-col-title">// Languages & Core</p>
+      <div class="stack-items">
+        <div class="stack-item"><div class="stack-dot"></div>Python</div>
+        <div class="stack-item"><div class="stack-dot"></div>R</div>
+        <div class="stack-item"><div class="stack-dot"></div>SQL</div>
+        <div class="stack-item"><div class="stack-dot"></div>Bash · Git</div>
+        <div class="stack-item"><div class="stack-dot"></div>Apache Spark</div>
+      </div>
+    </div>
+    <div class="stack-col">
+      <p class="stack-col-title">// ML & Deep Learning</p>
+      <div class="stack-items">
+        <div class="stack-item"><div class="stack-dot"></div>scikit-learn · XGBoost · LightGBM</div>
+        <div class="stack-item"><div class="stack-dot"></div>TensorFlow · Keras · PyTorch</div>
+        <div class="stack-item"><div class="stack-dot"></div>OpenCV · YOLO</div>
+        <div class="stack-item"><div class="stack-dot"></div>Prophet · ARIMA/SARIMA · Darts</div>
+        <div class="stack-item"><div class="stack-dot"></div>MLflow · Airflow · Docker</div>
+      </div>
+    </div>
+    <div class="stack-col">
+      <p class="stack-col-title">// Cloud & Data</p>
+      <div class="stack-items">
+        <div class="stack-item"><div class="stack-dot"></div>BigQuery · Vertex AI · GCP</div>
+        <div class="stack-item"><div class="stack-dot"></div>Snowflake · Databricks · Azure</div>
+        <div class="stack-item"><div class="stack-dot"></div>Power BI · Qlik Sense · Streamlit</div>
+        <div class="stack-item"><div class="stack-dot"></div>pandas · numpy · polars · dask</div>
+        <div class="stack-item"><div class="stack-dot"></div>GEE · GDAL · rasterio · QGIS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-glow"></div>
+  <div class="contact-inner">
+    <div class="contact-left">
+      <p class="sec-eye">Contact</p>
+      <h2 class="contact-title">¿Tienes algo<br><em>en mente?</em></h2>
+      <p class="contact-desc">Si trabajas en agritech, forestal, ganadería, spacetech o administraciones con necesidades de analítica geoespacial — escríbeme. Siempre estoy abierto a conversaciones interesantes.</p>
+    </div>
+    <div class="contact-right">
+      <a href="mailto:guillermodurantez@gmail.com" class="contact-link">
+        <div class="cl-dot g"></div>
+        <span class="cl-label">Email</span>
+        <span class="cl-value">guillermodurantez@gmail.com</span>
+        <span class="cl-arr">→</span>
+      </a>
+      <a href="https://linkedin.com/in/guillermodurantez" target="_blank" class="contact-link">
+        <div class="cl-dot b"></div>
+        <span class="cl-label">LinkedIn</span>
+        <span class="cl-value">linkedin.com/in/guillermodurantez</span>
+        <span class="cl-arr">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="footer-logo">Guillermo Durántez Quill <span>·</span> GeoAI</p>
+  <p class="footer-mono">36.7213° N · 4.4214° W · Málaga, ESP · SENTINEL-2</p>
+</footer>
+
+<script>
+// Nav
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Particle canvas
+const canvas = document.getElementById('bg');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [], mouse = {x:null,y:null};
+
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resize();
+window.addEventListener('resize', resize);
+window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+class P {
+  constructor() { this.init(); }
+  init() {
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.s = Math.random() * 1.5 + 0.3;
+    this.vx = (Math.random()-.5) * 0.25;
+    this.vy = (Math.random()-.5) * 0.25;
+    this.c = Math.random() > 0.55 ? '#00FF87' : '#00BFFF';
+    this.a = Math.random() * 0.35 + 0.08;
+    this.life = Math.random() * 300 + 100;
+    this.age = 0;
+  }
+  update() {
+    this.x += this.vx; this.y += this.vy; this.age++;
+    if (this.age > this.life || this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.init();
+    if (mouse.x) {
+      const dx = mouse.x - this.x, dy = mouse.y - this.y;
+      const d = Math.sqrt(dx*dx+dy*dy);
+      if (d < 100) { this.x -= dx*.006; this.y -= dy*.006; }
+    }
+  }
+  draw() {
+    ctx.save();
+    ctx.globalAlpha = this.a * (1 - this.age/this.life);
+    ctx.fillStyle = this.c;
+    ctx.shadowColor = this.c;
+    ctx.shadowBlur = 6;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.s, 0, Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+for(let i=0;i<150;i++) particles.push(new P());
+
+function drawLines() {
+  for(let i=0;i<particles.length;i++) {
+    for(let j=i+1;j<particles.length;j++) {
+      const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<90) {
+        ctx.save();
+        ctx.globalAlpha=(1-d/90)*0.07;
+        ctx.strokeStyle='#00FF87';
+        ctx.lineWidth=0.4;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+  }
+}
+
+function loop() {
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{p.update();p.draw();});
+  drawLines();
+  requestAnimationFrame(loop);
+}
+loop();
+</script>
+</body>
+</html>
